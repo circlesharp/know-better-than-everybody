@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "没有人比我更懂 比价格",
+  "usingComponents": {
+    "price-item": "/components/price-item"
+  }
+}
