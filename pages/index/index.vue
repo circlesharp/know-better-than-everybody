@@ -6,7 +6,7 @@
 		    <text class='cuIcon-titles text-green'></text> 商品比价 - 到底那个容量更划算
 		  </view>
 		</view>
-		
+
 		<!-- part 2 计价表单 -->
 		<view v-for="(good, idx) in goods" :key="idx">
 			<PriceItem 	:cheapest="idx === cheapestIdx"
@@ -15,7 +15,7 @@
 									@finish-input="finishInput">
 			</PriceItem>
 		</view>
-		
+
 		<!-- part 3 按钮组 -->
 		<view class="padding flex flex-direction">
 		<button class="cu-btn bg-green lg" @tap="addGood">加个商品</button>

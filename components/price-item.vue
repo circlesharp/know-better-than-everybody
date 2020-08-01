@@ -1,6 +1,8 @@
 <template>
 	<view class="cu-card case">
 	  <view class="cu-item shadow">
+
+			<!-- part 1 header -->
 			<view class="cu-bar bg-white solid-bottom">
 			  <view class='action'>
 			    <text class='cuIcon-cart text-orange'></text>
@@ -11,9 +13,12 @@
 					</text>
 			  </view>
 			</view>
+			
+			<!-- part 2 表单 -->
 			<form>
 				<view class="cu-form-group">
 					<view class="title">价格</view>
+					<text class='cuIcon-moneybag text-orange'></text>
 					<input 	placeholder="该商品售价"
 									type="digit"
 									v-model="price"
@@ -21,7 +26,7 @@
 					</input>
 				</view>
 				<view class="cu-form-group">
-					<view class="title">分量</view>
+					<view class="title">容量</view>
 					<input 	placeholder="该商品的容量"
 									type="digit"
 									v-model="content"
