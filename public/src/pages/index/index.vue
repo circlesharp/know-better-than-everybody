@@ -1,5 +1,9 @@
 <template>
 	<view>
+		<cu-custom bgColor="bg-grey">
+			<block slot="content" style="font-weight: 600;">没有人比我更懂</block>
+		</cu-custom>
+
 		<!-- part 1 -->
 		<Price v-if="PageCur=='price'"></Price>
 		<Saving v-if="PageCur=='saving'"></Saving>
@@ -35,7 +39,7 @@
 	export default {
 		data() {
 		return {
-				PageCur: 'price'
+				PageCur: 'price',
 			}
 		},
 		methods: {
