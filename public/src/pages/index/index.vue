@@ -1,75 +1,51 @@
 <template>
 	<view>
-		<!-- part 1 页面 titil -->
-		<view class="cu-bar bg-white solid-bottom">
-		  <view class='action'>
-		    <text class='cuIcon-titles text-green'></text> 商品比价 - 到底那个容量更划算
-		  </view>
-		</view>
+		<!-- part 1 -->
+		<Price v-if="PageCur=='price'"></Price>
+		<Saving v-if="PageCur=='saving'"></Saving>
+		<!-- <plugin v-if="PageCur=='plugin'"></plugin> -->
 
-		<!-- part 2 计价表单 -->
-		<view v-for="(good, idx) in goods" :key="idx">
-			<PriceItem 	:cheapest="idx === cheapestIdx"
-									:reset="reset"
-									:idx="idx"
-									@finish-input="finishInput">
-			</PriceItem>
-		</view>
+		<!-- part 2 -->
+		<view class="cu-bar tabbar bg-white shadow foot">
 
-		<!-- part 3 按钮组 -->
-		<view class="padding flex flex-direction">
-		<button class="cu-btn bg-green lg" @tap="addGood">加个商品</button>
-		<button class="cu-btn bg-red margin-tb-sm lg" @tap="clear">清空</button>
+			<view class="action" @click="NavChange" data-cur="price">
+				<view class='cuIcon-cu-image'>
+					<image :src="'/static/tabbar/basics' + [PageCur=='price'?'_cur':''] + '.png'"></image>
+				</view>
+				<view :class="PageCur=='price'?'text-green':'text-gray'">计价</view>
+			</view>
+			
+			<view class="action" @click="NavChange" data-cur="saving">
+				<view class='cuIcon-cu-image'>
+					<image :src="'/static/tabbar/component' + [PageCur == 'saving'?'_cur':''] + '.png'"></image>
+				</view>
+				<view :class="PageCur=='saving'?'text-green':'text-gray'">攒钱</view>
+			</view>
+			<!-- <view class="action" @click="NavChange" data-cur="plugin">
+				<view class='cuIcon-cu-image'>
+					<image :src="'/static/tabbar/plugin' + [PageCur == 'plugin'?'_cur':''] + '.png'"></image>
+				</view>
+				<view :class="PageCur=='plugin'?'text-green':'text-gray'">扩展</view>
+			</view> -->
 		</view>
 	</view>
 </template>
 
 <script>
-	import PriceItem from '../../components/price-item.vue'
-	
-	const defaultNum = 2
-	
 	export default {
-		components: { PriceItem },
 		data() {
-			return {
-				goods: [ 0, 0 ],
-				reset: true,
-				cheapestIdx: -1,
+		return {
+				PageCur: 'price'
 			}
 		},
-		onLoad() {
-			
-		},
 		methods: {
-			addGood() {
-				this.goods.push(0)
-			},
-			clear() {
-				this.goods = [ 0, 0 ],
-				this.reset = true
-				this.cheapestIdx = -1
-			},
-			finishInput(idx, rate) {
-				this.reset = false
-				this.goods[idx] = rate
-				this.cheapestIdx = this.getMaxIdx()
-			},
-			getMaxIdx() {
-				let max = 0
-				let maxIdx = -1
-				this.goods.forEach((good, idx) => {
-					if (good > max) {
-						max = good
-						maxIdx = idx
-					}
-				})
-				return maxIdx
-			},
+			NavChange: function(e) {
+				this.PageCur = e.currentTarget.dataset.cur
+			}
 		}
 	}
 </script>
 
 <style>
-	
+
 </style>

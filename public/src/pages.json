@@ -1,16 +1,20 @@
 {
-	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+	"pages": [
 		{
 			"path": "pages/index/index",
+			"style": {}
+		},
+		{
+			"path": "pages/price/price",
 			"style": {
 				"navigationBarTitleText": "没有人比我更懂 比价格"
 			}
 		}
 	],
 	"globalStyle": {
-		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#F8F8F8",
-		"backgroundColor": "#F8F8F8"
+		"navigationBarBackgroundColor": "#0081ff",
+		"navigationBarTitleText": "没有人比我更懂",
+		"navigationStyle": "custom",
+		"navigationBarTextStyle": "white"
 	}
 }
