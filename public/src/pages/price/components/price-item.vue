@@ -19,19 +19,19 @@
 				<view class="cu-form-group">
 					<view class="title">价格</view>
 					<text class='cuIcon-moneybag text-orange'></text>
-					<input 	placeholder="该商品售价"
-									type="digit"
-									v-model="price"
-									@blur="finishInput">
-					</input>
+					<input
+						placeholder="该商品售价"
+						type="digit"
+						v-model="price"
+						@blur="finishInput" />
 				</view>
 				<view class="cu-form-group">
 					<view class="title">容量</view>
-					<input 	placeholder="该商品的容量"
-									type="digit"
-									v-model="content"
-									@blur="finishInput">
-					</input>
+					<input
+						placeholder="该商品的容量"
+						type="digit"
+						v-model="content"
+						@blur="finishInput" />
 				</view>
 			</form>
 	  </view>

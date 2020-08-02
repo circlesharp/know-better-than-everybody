@@ -1,11 +1,15 @@
 <template>
   <view>
-    saving
+    <AdditionHelper></AdditionHelper>
   </view>
 </template>
 
 <script>
-  export default {
+import AdditionHelper from './components/addition-helper';
 
-  }
+export default {
+  components: {
+    AdditionHelper,
+  },
+}
 </script>
