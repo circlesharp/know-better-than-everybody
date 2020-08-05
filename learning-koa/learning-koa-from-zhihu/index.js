@@ -22,3 +22,14 @@ app.use(async (ctx, next) => {
 app.use(ctx => console.log(5));
 
 app.listen(3000);
+
+// ps 路由的本质也是中间件
+// 如果没有路由，所有的请求都会返回相同的响应
+// 无论是不同的路径、不同的url
+
+/**
+ * 路由的意义
+ * 1. 处理不同的 url
+ * 2. 处理不同的 http 方法
+ * 3. 解析 url 上的参数
+ */
