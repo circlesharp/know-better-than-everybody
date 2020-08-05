@@ -35,4 +35,12 @@ homeRouter.get('/:address', ctx => {
 app.use(router.routes());
 app.use(homeRouter.routes());
 
+/**
+ * allowedMethods
+ * 1. 能响应客户端的 options 请求
+ * 2. 返回 405（不允许），501（为实现）
+ */
+
+app.use(homeRouter.allowedMethods());
+
 app.listen(3000);
