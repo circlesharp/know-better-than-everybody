@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "serve": "nodemon app.js",
-    "start": "nodemon learning-koa-from-zhihu/index.js"
+    "start": "nodemon learning-koa-from-zhihu/index.js",
+    "myRoute": "nodemon learning-koa-from-zhihu/myRoute.js"
   },
   "keywords": [],
   "author": "",
