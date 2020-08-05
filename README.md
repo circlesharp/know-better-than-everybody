@@ -16,7 +16,7 @@
 2. 前端放在 /public
 3. 后端放在 /src
 4. ui学习放在 /ui
-5. koa学习放在 /koa
+5. koa学习放在 /learning-koa
 
 ## 小程序发版说明
 

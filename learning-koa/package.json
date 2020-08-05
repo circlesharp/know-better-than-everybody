@@ -7,7 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "serve": "nodemon app.js",
     "start": "nodemon learning-koa-from-zhihu/middleware-router.js",
-    "koaRoute": "nodemon learning-koa-from-zhihu/koaRouter.js"
+    "koaRoute": "nodemon learning-koa-from-zhihu/koaRouter.js",
+    "mongo": "nodemon learning-koa-from-zhihu/mongo.js"
   },
   "keywords": [],
   "author": "",
