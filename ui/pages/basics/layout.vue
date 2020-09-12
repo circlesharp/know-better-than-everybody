@@ -23,10 +23,15 @@
 				{{tabNav[index]}}
 			</view>
 		</scroll-view>
-
-		<Comment>
-			
+		<Comment  v-if="TabCur==0">
+			<ol>
+				<li>导航 nav</li>
+				<li>text-center</li>
+				<li>data-xx: e.currentTarget.dataset.xx </li>
+			</ol>
 		</Comment>
+
+
 		<block v-if="TabCur==0">
 			<view class="cu-bar bg-white solid-bottom margin-top">
 				<view class="action">
@@ -34,6 +39,13 @@
 					固定尺寸
 				</view>
 			</view>
+			<Comment>
+				<h5>cu-bar - 操作条</h5>
+				<ol>
+					<li>view.action</li>
+					<li>view(背景色要和 cu-bar 的一致)</li>
+				</ol>
+			</Comment>
 
 			<view class="padding bg-white">
 				<!-- flex-wrap -->
@@ -54,6 +66,14 @@
 					<view class="basis-xl bg-grey margin-xs padding-sm radius">xl(80%)</view>
 				</view>
 			</view>
+			<Comment>
+				<ol>
+					<li>flex-wrap: 允许换行</li>
+					<li>basis</li>
+					<li>不满 50% 得加上 .basis-df 补上，否则不会换行</li>
+					<li>到达 50% 也可以，不过一行装不满会换行，且没有高度</li>
+				</ol>
+			</Comment>
 
 			<view class="cu-bar bg-white  margin-top solid-bottom">
 				<view class="action">
@@ -63,24 +83,32 @@
 			</view>
 
 			<view class="padding bg-white">
-				<view class="flex">
+				<view class="flex margin-bottom-sm">
 					<view class="flex-sub bg-grey padding-sm margin-xs radius">1</view>
 					<view class="flex-sub bg-grey padding-sm margin-xs radius">1</view>
 				</view>
-				<view class="flex  p-xs margin-bottom-sm mb-sm">
+				<view class="flex margin-bottom-sm">
 					<view class="flex-sub bg-grey padding-sm margin-xs radius">1</view>
 					<view class="flex-twice bg-grey padding-sm margin-xs radius">2</view>
 				</view>
-				<view class="flex  p-xs margin-bottom-sm mb-sm">
+				<view class="flex margin-bottom-sm">
 					<view class="flex-sub bg-grey padding-sm margin-xs radius">1</view>
 					<view class="flex-twice bg-grey padding-sm margin-xs radius">2</view>
 					<view class="flex-treble bg-grey padding-sm margin-xs radius">3</view>
 				</view>
 			</view>
+			<Comment>
+				<ol>
+					<li>flex-sub === flex: 1</li>
+					<li>flex-twice, flex-treble</li>
+					<li>文字不用设置高，只需要 padding 即可</li>
+				</ol>
+			</Comment>
 			
 			<view class="cu-bar bg-white  margin-top solid-bottom">
 				<view class="action">
-					<text class="cuIcon-title text-blue"></text>水平对齐(justify)
+					<text class="cuIcon-title text-blue"></text>
+					水平对齐(justify)
 				</view>
 			</view>
 			<view class="bg-white">
@@ -105,6 +133,12 @@
 					<view class="bg-grey padding-sm margin-xs radius">around</view>
 				</view>
 			</view>
+			<Comment>
+				<ol>
+					<li>替代 justify-content, 主轴</li>
+				</ol>
+			</Comment>
+
 			<view class="cu-bar bg-white  margin-top solid-bottom">
 				<view class="action">
 					<text class="cuIcon-title text-blue"></text>垂直对齐(align)
@@ -124,7 +158,14 @@
 					<view class="bg-grey padding-sm margin-xs radius">center</view>
 				</view>
 			</view>
+			<Comment>
+				<ol>
+					<li>替代 align-items, 交叉轴</li>
+				</ol>
+			</Comment>
 		</block>
+
+
 		<block v-if="TabCur==1">
 			<view class="cu-bar bg-white  margin-top solid-bottom">
 				<view class="action">
