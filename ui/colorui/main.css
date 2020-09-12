@@ -2925,6 +2925,7 @@ scroll-view.cu-steps .cu-item {
 	height: 100%;
 	position: absolute;
 }
+/* 最后一个有 margin-bottom, 没有 margin-right */
 .grid.col-1.grid-square>view {
 	padding-bottom: 100%;
 	height: 0;

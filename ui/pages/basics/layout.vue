@@ -165,31 +165,84 @@
 			</Comment>
 		</block>
 
-
 		<block v-if="TabCur==1">
+
 			<view class="cu-bar bg-white  margin-top solid-bottom">
 				<view class="action">
-					<text class="cuIcon-title text-blue"></text>等分列
+					<text class="cuIcon-title text-blue"></text>
+					等分列
 				</view>
-				<view class="action"></view>
 			</view>
 			<view class="bg-white padding">
-				<view class="grid margin-bottom text-center" v-for="(item,index) in 5" :key="index" :class="'col-' + (index+1)">
-					<view class="padding" :class="indexs%2==0?'bg-cyan':'bg-blue'" v-for="(item,indexs) in (index+1)*2" :key="indexs">{{indexs+1}}</view>
+				<view
+					class="grid margin-bottom text-center"
+					:class="'col-' + (index+1)"
+					v-for="(item,index) in 5"
+					:key="index"
+				>
+					<view
+						class="padding"
+						:class="indexs%2==0?'bg-cyan':'bg-blue'"
+						v-for="(item,indexs) in (index+1)"
+						:key="indexs"
+					>
+						{{indexs+1}}
+					</view>
+					<!-- <view class="padding" :class="indexs%2==0?'bg-cyan':'bg-blue'">test</view> -->
 				</view>
 			</view>
+			<Comment>
+				<ol>
+					<li>原理：grid.col-n>view { width: 100% / n; }</li>
+					<li>父元素要同时有 .grid .col-n </li>
+					<li>多出来的会换行</li>
+				</ol>
+			</Comment>
+
 			<view class="cu-bar bg-white  margin-top solid-bottom">
 				<view class="action">
 					<text class="cuIcon-title text-blue"></text>等高
 				</view>
-				<view class="action"></view>
 			</view>
 			<view class="bg-white padding">
 				<view class="grid col-4 grid-square">
 					<view class="bg-img" v-for="(item,index) in avatar" :key="index" :style="[{ backgroundImage:'url(' + avatar[index] + ')' }]"></view>
 				</view>
 			</view>
+			<Comment>
+				<ol>
+					<li>本质还是 .grid, .col-n</li>
+					<li>父多了一个 className: grid-square</li>
+					<li>
+						.grid.col-n.grid-square>view {
+							padding-bottom: calc((100% - 20(n - 1)upx)/n);
+							height: 0;
+							width: calc((100% - 20(n - 1)upx)/n);
+						}
+					</li>
+				</ol>
+			</Comment>
+
+			<view class="cu-bar bg-grey margin-top solid-bottom">
+				<view class="action">
+					<text class="cuIcon-title"></text>等高测试
+				</view>
+			</view>
+			<view class="bg-grey padding">
+				<view class="grid col-3 grid-square">
+					<view class="bg-orange"></view>
+					<view class="bg-orange"></view>
+					<view class="bg-orange"></view>
+				</view>
+			</view>
+			<Comment>
+				<ol>
+					<li>gird 首先就是 flex-wrap, 所以能够换行</li>
+					<li>最后一个有 margin-bottom, 没有 margin-right</li>
+				</ol>
+			</Comment>
 		</block>
+
 		<block v-if="TabCur==2">
 			<view class="cu-bar bg-white margin-top solid-bottom">
 				<view class="action">
@@ -262,7 +315,7 @@
 		data() {
 			return {
 				CustomBar: this.CustomBar,
-				TabCur: 0,
+				TabCur: 1,
 				avatar:['https://ossweb-img.qq.com/images/lol/web201310/skin/big10001.jpg','https://ossweb-img.qq.com/images/lol/web201310/skin/big81005.jpg','https://ossweb-img.qq.com/images/lol/web201310/skin/big25002.jpg','https://ossweb-img.qq.com/images/lol/web201310/skin/big99008.jpg'],
 				tabNav: ['Flex布局', 'Grid布局', '辅助布局']
 			};
