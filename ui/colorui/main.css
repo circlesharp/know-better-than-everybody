@@ -1461,6 +1461,12 @@ button.cuIcon.lg {
           操作条
  ==================== */
 
+/* 
+	cu-bar
+		view.action
+		view(背景色要和 cu-bar 的一致)
+ */
+
 .cu-bar {
 	display: flex;
 	position: relative;
@@ -2810,6 +2816,7 @@ scroll-view.cu-steps .cu-item {
 	flex-direction: column;
 }
 
+/* flex-wrap 让弹性盒元素在必要的时候拆行 */
 .flex-wrap {
 	flex-wrap: wrap;
 }

@@ -1,9 +1,18 @@
 <script>
-	import Vue from 'vue'
+	import Vue from 'vue';
+	import Comment from './pages/my-component/comment';
+
+	Vue.component('Comment', Comment);
+
 	export default {
 		onLaunch: function() {
 			uni.getSystemInfo({
 				success: function(e) {
+					console.log(
+						'From: onLaunch, getSystemInfo',
+						e,
+					);
+
 					// #ifndef MP
 					Vue.prototype.StatusBar = e.statusBarHeight;
 					if (e.platform == 'android') {

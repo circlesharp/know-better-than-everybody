@@ -1,34 +1,67 @@
 <template>
 	<view>
-		<cu-custom bgColor="bg-gradual-blue" :isBack="true"><block slot="backText">返回</block><block slot="content">布局</block></cu-custom>
-		<scroll-view scroll-x class="bg-white nav text-center fixed" :style="[{top:CustomBar + 'px'}]">
-			<view class="cu-item" :class="index==TabCur?'text-blue cur':''" v-for="(item,index) in tabNav" :key="index" @tap="tabSelect"
-			 :data-id="index">
+		<cu-custom bgColor="bg-gradual-blue" :isBack="true">
+			<block slot="backText">返回</block>
+			<block slot="content">布局</block>
+		</cu-custom>
+
+		<scroll-view
+			scroll-x
+			class="bg-white nav fixed text-center"
+			:style="[{ top: CustomBar + 'px' }]"
+		>
+			<view
+				ref="test"
+				class="cu-item"
+				:class="index == TabCur ? 'text-blue cur' : ''"
+				v-for="(item, index) in tabNav"
+				:key="index"
+				@tap="tabSelect"
+			 	:data-id="index"
+				data-test="test"
+			>
 				{{tabNav[index]}}
 			</view>
 		</scroll-view>
+
+		<Comment>
+			
+		</Comment>
 		<block v-if="TabCur==0">
 			<view class="cu-bar bg-white solid-bottom margin-top">
 				<view class="action">
-					<text class="cuIcon-title text-blue"></text>固定尺寸
+					<text class="cuIcon-title text-blue"></text>
+					固定尺寸
 				</view>
 			</view>
+
 			<view class="padding bg-white">
+				<!-- flex-wrap -->
 				<view class="flex flex-wrap">
+					<!-- 不满 50% 得加上 .basis-df 补上，否则不会换行 -->
 					<view class="basis-xs bg-grey margin-xs padding-sm radius">xs(20%)</view>
 					<view class="basis-df"></view>
+
 					<view class="basis-sm bg-grey margin-xs padding-sm radius">sm(40%)</view>
 					<view class="basis-df"></view>
+
+					<!-- 到达 50% 也可以，不过一行装不满会换行，且没有高度 -->
 					<view class="basis-df bg-grey margin-xs padding-sm radius">sub(50%)</view>
+					<view class="basis-df"></view>
+
 					<view class="basis-lg bg-grey margin-xs padding-sm radius">lg(60%)</view>
+
 					<view class="basis-xl bg-grey margin-xs padding-sm radius">xl(80%)</view>
 				</view>
 			</view>
+
 			<view class="cu-bar bg-white  margin-top solid-bottom">
 				<view class="action">
-					<text class="cuIcon-title text-blue"></text>比例布局
+					<text class="cuIcon-title text-blue"></text>
+					比例布局
 				</view>
 			</view>
+
 			<view class="padding bg-white">
 				<view class="flex">
 					<view class="flex-sub bg-grey padding-sm margin-xs radius">1</view>
@@ -44,6 +77,7 @@
 					<view class="flex-treble bg-grey padding-sm margin-xs radius">3</view>
 				</view>
 			</view>
+			
 			<view class="cu-bar bg-white  margin-top solid-bottom">
 				<view class="action">
 					<text class="cuIcon-title text-blue"></text>水平对齐(justify)
@@ -178,6 +212,7 @@
 				</view>
 			</view>
 		</block>
+
 	</view>
 </template>
 
@@ -193,6 +228,7 @@
 		},
 		methods: {
 			tabSelect(e) {
+				console.log('data-test', e.currentTarget.dataset.test);
 				this.TabCur = e.currentTarget.dataset.id;
 				this.scrollLeft = (e.currentTarget.dataset.id - 1) * 60
 			}
