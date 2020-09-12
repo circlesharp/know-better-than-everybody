@@ -250,12 +250,19 @@
 				</view>
 			</view>
 			<view class="bg-white padding">
-				<view class=" cf padding-sm">
+				<view class="cf padding-sm">
 					<view class="bg-grey radius fl padding-sm">ColorUi fl</view>
 					<view class="bg-grey radius fr padding-sm">ColorUi fr</view>
 				</view>
 			</view>
-			<view class="cu-bar bg-white  solid-bottom margin-top solid-bottom">
+			<Comment>
+				<ol>
+					<li>父元素 cf</li>
+					<li>子元素 fl, fr</li>
+				</ol>
+			</Comment>
+
+			<view class="cu-bar bg-white solid-bottom margin-top solid-bottom">
 				<view class="action">
 					<text class="cuIcon-title text-blue"></text>内外边距
 				</view>
@@ -268,6 +275,13 @@
 					<view class="basis-df">.margin-{size}</view>
 					<view class="basis-df">.padding-{size}</view>
 				</view>
+				<Comment>
+					<ol>
+						<li>用了 flew-wrap, 所以可以换行</li>
+						<li>注意这里的顺序是1-2->3-4</li>
+					</ol>
+				</Comment>
+
 				<view class="flex flex-wrap padding solid-top">
 					<view class="basis-df padding-bottom-xs">水平方向外边距</view>
 					<view class="basis-df padding-bottom-xs">水平方向内边距</view>
@@ -315,7 +329,7 @@
 		data() {
 			return {
 				CustomBar: this.CustomBar,
-				TabCur: 1,
+				TabCur: 2,
 				avatar:['https://ossweb-img.qq.com/images/lol/web201310/skin/big10001.jpg','https://ossweb-img.qq.com/images/lol/web201310/skin/big81005.jpg','https://ossweb-img.qq.com/images/lol/web201310/skin/big25002.jpg','https://ossweb-img.qq.com/images/lol/web201310/skin/big99008.jpg'],
 				tabNav: ['Flex布局', 'Grid布局', '辅助布局']
 			};
