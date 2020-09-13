@@ -6,6 +6,14 @@
 				<text class="cuIcon-title text-blue"></text>文字大小
 			</view>
 		</view>
+		<Comment>
+			<ol>
+				<li>text-n upx px</li>
+				<li>xsl, sl, xxl, xl, lg, df, sm, xs</li>
+				<li>120, 80, 44, 36, 32, 28, 24, 20</li>
+			</ol>
+		</Comment>
+
 		<view class="bg-white padding-lr">
 			<view class="solids-bottom padding-xs flex align-center">
 				<view class="padding">60</view>
@@ -16,6 +24,7 @@
 					<view class="padding">用于图标、数字等特大显示</view>
 				</view>
 			</view>
+
 			<view class="solids-bottom padding-xs flex align-center">
 				<view class="padding">40</view>
 				<view class="flex-sub text-center">
@@ -25,6 +34,7 @@
 					<view class="padding">用于图标、数字等较大显示</view>
 				</view>
 			</view>
+
 			<view class="solids-bottom padding-xs flex align-center">
 				<view class="padding">22</view>
 				<view class="flex-sub text-center">
@@ -34,6 +44,10 @@
 					<view class="padding">用于金额数字等信息</view>
 				</view>
 			</view>
+			<Comment>
+				text-price 80% size
+			</Comment>
+
 			<view class="solids-bottom padding-xs flex align-center">
 				<view class="padding">18</view>
 				<view class="flex-sub text-center">
@@ -43,6 +57,10 @@
 					<view class="padding">页面大标题，用于结果页等单一信息页</view>
 				</view>
 			</view>
+			<Comment>
+				text-bold font-weight: bold;
+			</Comment>
+
 			<view class="solids-bottom padding-xs flex align-center">
 				<view class="padding">16</view>
 				<view class="flex-sub text-center">
@@ -52,6 +70,7 @@
 					<view class="padding">页面小标题，首要层级显示内容</view>
 				</view>
 			</view>
+			
 			<view class="solids-bottom padding-xs flex align-center">
 				<view class="padding">14</view>
 				<view class="flex-sub text-center">
@@ -59,6 +78,10 @@
 					<view class="padding">页面默认字号，用于摘要或阅读文本</view>
 				</view>
 			</view>
+			<Comment>
+				父元素设置了 bg-white, 文字颜色默认为 #666
+			</Comment>
+
 			<view class="solids-bottom padding-xs flex align-center">
 				<view class="padding">12</view>
 				<view class="flex-sub text-center">
@@ -68,6 +91,7 @@
 					<view class="padding">页面辅助信息，次级内容等</view>
 				</view>
 			</view>
+
 			<view class="padding-xs flex align-center">
 				<view class="padding">10</view>
 				<view class="flex-sub text-center">
@@ -78,6 +102,7 @@
 				</view>
 			</view>
 		</view>
+
 		<view class="cu-bar bg-white solid-bottom margin-top">
 			<view class="action">
 				<text class="cuIcon-title text-blue"></text>文字颜色
@@ -90,26 +115,47 @@
 				</view>
 			</view>
 		</view>
+		<Comment>
+			经典的 grid 布局
+		</Comment>
+
 		<view class="cu-bar bg-white solid-bottom margin-top">
 			<view class="action">
 				<text class="cuIcon-title text-blue"></text>文字阴影
 			</view>
 		</view>
 		<view class="grid col-5 padding-sm">
-			<view class="padding-sm" v-for="(item,index) in ColorList" :key="index">
+			<view class="padding-tb-sm" v-for="(item,index) in ColorList" :key="index">
 				<view class="text-center text-shadow" :class="'text-' + item.name">
 					<view class="cuIcon-ellipse text-xxl"></view>
 				</view>
 			</view>
 		</view>
+		<Comment>
+			<ol>
+				<li>text-shadow</li>
+				<li>CSS3 [attribute*=value] 选择器</li>
+			</ol>
+		</Comment>
+		
 		<view class="cu-bar bg-white solid-bottom margin-top">
 			<view class="action">
 				<text class="cuIcon-title text-blue"></text>文字截断
 			</view>
 		</view>
 		<view class="padding bg-white">
+			<view class="text-cut padding margin-bottom bg-grey radius" style="width:220upx">我于杀戮之中绽放 ,亦如黎明中的花朵</view>
 			<view class="text-cut padding bg-grey radius" style="width:220px">我于杀戮之中绽放 ,亦如黎明中的花朵</view>
 		</view>
+		<Comment>
+			text-cut 截断3兄弟
+			<ol>
+				<li>overflow</li>
+				<li>text-overflow</li>
+				<li>white-space</li>
+			</ol>
+		</Comment>
+
 		<view class="cu-bar bg-white solid-bottom margin-top">
 			<view class="action">
 				<text class="cuIcon-title text-blue"></text>文字对齐
@@ -120,6 +166,10 @@
 			<view class="text-center padding">我于杀戮之中绽放 ,亦如黎明中的花朵</view>
 			<view class="text-right padding">我于杀戮之中绽放 ,亦如黎明中的花朵</view>
 		</view>
+		<Comment>
+			text-align: left, center, right
+		</Comment>
+
 		<view class="cu-bar bg-white solid-bottom margin-top">
 			<view class="action">
 				<text class="cuIcon-title text-blue"></text>特殊文字

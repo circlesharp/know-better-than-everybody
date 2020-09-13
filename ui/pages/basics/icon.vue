@@ -8,7 +8,8 @@
 			</view>
 		</view>
 		<view class="cu-list grid col-3">
-			<view class="cu-item" v-for="(item,index) in cuIcon" :key="index" v-if="item.isShow">
+			<!-- 用 v-if 是有道理的 -->
+			<view class="cu-item" v-for="(item,index) in cuIconShow" :key="index">
 				<text class="lg text-gray" :class="'cuIcon-' + item.name"></text>
 				<text>{{item.name}}</text>
 			</view>
@@ -912,6 +913,11 @@
 				}]
 
 			};
+		},
+		computed: {
+			cuIconShow() {
+				return this.cuIcon.filter(i => i.isShow);
+			},
 		},
 		methods: {
 			searchIcon(e) {

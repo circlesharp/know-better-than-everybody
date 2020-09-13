@@ -3567,6 +3567,8 @@ scroll-view.cu-steps .cu-item {
 	color: #ffffff;
 }
 
+/* CSS3 [attribute*=value] 选择器 */
+/* 设置 class 属性值包含 xxx 的 */
 .shadow[class*="-red"] {
 	box-shadow: 6upx 6upx 8upx rgba(204, 69, 59, 0.2);
 }
