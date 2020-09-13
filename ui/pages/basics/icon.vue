@@ -1,14 +1,26 @@
 <template>
-	<view>
+	<view :style="{paddingTop: commentHeight + 'px'}">
 		<cu-custom bgColor="bg-gradual-blue" :isBack="true"><block slot="backText">返回</block><block slot="content">图标</block></cu-custom>
-		<view class="cu-bar bg-white search fixed" :style="[{top:CustomBar + 'px'}]">
+		<view class="cu-bar bg-white fixed" :style="[{top:CustomBar + 'px'}]">
 			<view class="search-form round">
 				<text class="cuIcon-search"></text>
-				<input type="text" placeholder="搜索cuIcon" confirm-type="search" @input="searchIcon"></input>
+				<input type="text" placeholder="搜索cuIcon" confirm-type="search" @input="searchIcon" />
 			</view>
 		</view>
+		<view id="comment" class="nav fixed" :style="[{top:CustomBar + 50 + 'px'}]">
+			<Comment>
+				<ol>
+					<li>fixed 要配合 nav / cu-bar 用</li>
+					<li>没有 .search, 只有 .cu-bar>.search-form</li>
+					<li>.round border-radius 超大</li>
+					<li>mounted hook 使用 query</li>
+					<li>text 标签设置 cuIcon-n </li>
+				</ol>
+			</Comment>
+		</view>
+
 		<view class="cu-list grid col-3">
-			<!-- 用 v-if 是有道理的 -->
+			<!-- 使用计算属性与 filter, 不要 mix v-for with v-if -->
 			<view class="cu-item" v-for="(item,index) in cuIconShow" :key="index">
 				<text class="lg text-gray" :class="'cuIcon-' + item.name"></text>
 				<text>{{item.name}}</text>
@@ -22,6 +34,7 @@
 		data() {
 			return {
 				CustomBar: this.CustomBar,
+				commentHeight: 50,
 				cuIcon: [{
 					name: 'appreciate',
 					isShow: true
@@ -919,6 +932,13 @@
 				return this.cuIcon.filter(i => i.isShow);
 			},
 		},
+		mounted() {
+			const query = uni.createSelectorQuery();
+			const comment = query.select('#comment');
+			const rst = comment.boundingClientRect((e) => {
+				this.commentHeight += e.height;
+			}).exec();
+		},
 		methods: {
 			searchIcon(e) {
 				let key = e.detail.value.toLowerCase();
@@ -939,7 +959,7 @@
 </script>
 
 <style>
-	page {
-		padding-top: 50px;
-	}
+	/* page {
+		padding-top: 100px;
+	} */
 </style>
