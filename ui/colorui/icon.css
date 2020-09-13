@@ -10,6 +10,7 @@
 	}
 }
 
+/* 图标旋转 */
 .cuIconfont-spin {
 	-webkit-animation: cuIcon-spin 2s infinite linear;
 	animation: cuIcon-spin 2s infinite linear;

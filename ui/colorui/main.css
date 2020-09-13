@@ -645,6 +645,7 @@ radio.white.checked .uni-radio-input {
 	border-radius: 1000upx;
 }
 
+/* lines 边框变粗 */
 .cu-btn[class*="lines"]::after {
 	border: 6upx solid currentColor;
 }
@@ -703,6 +704,7 @@ button.cuIcon.lg {
 	display: flex;
 }
 
+/* [attribute] */
 .cu-btn[disabled] {
 	opacity: 0.6;
 	color: #ffffff;
