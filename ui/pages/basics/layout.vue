@@ -206,7 +206,9 @@
 			</view>
 			<view class="bg-white padding">
 				<view class="grid col-4 grid-square">
-					<view class="bg-img" v-for="(item,index) in avatar" :key="index" :style="[{ backgroundImage:'url(' + avatar[index] + ')' }]"></view>
+					<view class="bg-img" v-for="(item,index) in avatar" :key="index" :style="[{ backgroundImage:'url(' + avatar[index] + ')' }]">
+						<view class="cu-tag bg-orange">99+</view>
+					</view>
 				</view>
 			</view>
 			<Comment>
@@ -230,7 +232,9 @@
 			</view>
 			<view class="bg-grey padding">
 				<view class="grid col-3 grid-square">
-					<view class="bg-orange"></view>
+					<view class="bg-white">
+						<view class="cu-tag">test</view>
+					</view>
 					<view class="bg-orange"></view>
 					<view class="bg-orange"></view>
 				</view>
@@ -239,6 +243,7 @@
 				<ol>
 					<li>gird 首先就是 flex-wrap, 所以能够换行</li>
 					<li>最后一个有 margin-bottom, 没有 margin-right</li>
+					<li>grid 里的 cu-tag 有特别样式</li>
 				</ol>
 			</Comment>
 		</block>
@@ -329,7 +334,7 @@
 		data() {
 			return {
 				CustomBar: this.CustomBar,
-				TabCur: 2,
+				TabCur: 1,
 				avatar:['https://ossweb-img.qq.com/images/lol/web201310/skin/big10001.jpg','https://ossweb-img.qq.com/images/lol/web201310/skin/big81005.jpg','https://ossweb-img.qq.com/images/lol/web201310/skin/big25002.jpg','https://ossweb-img.qq.com/images/lol/web201310/skin/big99008.jpg'],
 				tabNav: ['Flex布局', 'Grid布局', '辅助布局']
 			};

@@ -11,6 +11,13 @@
 			<view class='cu-tag round'>椭圆</view>
 			<view class='cu-tag radius'>圆角</view>
 		</view>
+		<Comment>
+			<ol>
+				<li>cu-tag</li>
+				<li>round</li>
+				<li>radius</li>
+			</ol>
+		</Comment>
 
 		<view class="cu-bar bg-white margin-top">
 			<view class='action'>
@@ -21,6 +28,7 @@
 			<view class='cu-tag radius sm'>小尺寸</view>
 			<view class='cu-tag radius'>普通尺寸</view>
 		</view>
+
 		<view class="cu-bar bg-white margin-top">
 			<view class='action'>
 				<text class='cuIcon-title text-blue'></text>标签颜色
@@ -34,6 +42,14 @@
 				<view class='cu-tag light' :class="'bg-' + item.name">{{item.title}}</view>
 			</view>
 		</view>
+		<Comment>
+			<ol>
+				<li>bg-n</li>
+				<li>浅色 light</li>
+				<li>attention: light 是和 bg-n 绑定的，cu-btn 并没有 light, 只有 line-n / lines-n</li>
+			</ol>
+		</Comment>
+		
 		<view class="cu-bar bg-white margin-top">
 			<view class='action'>
 				<text class='cuIcon-title text-blue'></text>镂空标签
@@ -44,6 +60,12 @@
 				<view class='cu-tag' :class="'line-' + item.name">{{item.title}}</view>
 			</view>
 		</view>
+		<Comment>
+			<ol>
+				<li>line-n，无 lines-n</li>
+			</ol>
+		</Comment>
+
 		<view class="cu-bar bg-white margin-top">
 			<view class='action'>
 				<text class='cuIcon-title text-blue'></text>胶囊样式
@@ -91,6 +113,12 @@
 				</view>
 			</view>
 		</view>
+		<Comment>
+			<ol>
+				<li>cu-capsule 嵌套 cu-tag</li>
+			</ol>
+		</Comment>
+
 		<view class="cu-bar bg-white margin-top">
 			<view class='action'>
 				<text class='cuIcon-title text-blue'></text>数字标签
@@ -112,6 +140,12 @@
 				<view class='cu-tag badge'>99+</view>
 			</view>
 		</view>
+		<Comment>
+			<ol>
+				<li>.cu-tag.badge 会呈现在左上角</li>
+				<li>组合不同的父 class 呈现效果会不一样</li>
+			</ol>
+		</Comment>
 	</view>
 </template>
 
