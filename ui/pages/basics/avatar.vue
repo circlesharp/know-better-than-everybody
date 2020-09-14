@@ -1,12 +1,10 @@
 <template>
 	<view>
-		<!-- 顶部标题栏 -->
 		<cu-custom bgColor="bg-gradual-blue" :isBack="true">
 			<block slot="backText">返回</block>
 			<block slot="content">头像</block>
 		</cu-custom>
-		
-		<!--  -->
+
 		<view class="cu-bar bg-white">
 			<view class="action">
 				<text class="cuIcon-title text-blue"></text>头像形状
@@ -16,6 +14,12 @@
 			<view class="cu-avatar round" style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big10001.jpg)"></view>
 			<view class="cu-avatar radius margin-left" style="background-image:url(https://ossweb-img.qq.com/images/lol/web201310/skin/big81005.jpg);"></view>
 		</view>
+		<Comment>
+			<ol>
+				<li>本质上是在 view 上使用了 background-image</li>
+				<li>同样能使用 round, radius</li>
+			</ol>
+		</Comment>
 
 		
 		<view class="cu-bar bg-white margin-top">
@@ -45,6 +49,10 @@
 				<text class="avatar-text">网络</text>
 			</view>
 		</view>
+		<Comment>
+			sm, , lg, xl
+		</Comment>
+
 		<view class="cu-bar bg-white margin-top">
 			<view class="action">
 				<text class="cuIcon-title text-blue"></text>内嵌文字(图标)
@@ -57,7 +65,19 @@
 			<view class="cu-avatar radius margin-left">
 				<text>港</text>
 			</view>
+			<view class="cu-avatar radius margin-left">
+				港
+			</view>
+			<view class="cu-avatar radius margin-left">
+				<text class="avatar-text">网络</text>
+			</view>
 		</view>
+		<Comment>
+			<ol>
+				<li>正常内嵌就可以的</li>
+				<li>如果文字过多，试试用 avatar-text 包装一下</li>
+			</ol>
+		</Comment>
 
 		<view class="cu-bar bg-white margin-top">
 			<view class="action">
@@ -69,6 +89,7 @@
 				<text class="avatar-text">{{item.name}}</text>
 			</view>
 		</view>
+
 		<view class="cu-bar bg-white margin-top">
 			<view class="action">
 				<text class="cuIcon-title text-blue"></text>头像组
@@ -78,7 +99,18 @@
 			<view class="cu-avatar-group">
 				<view class="cu-avatar round lg" v-for="(item,index) in avatar" :key="index" :style="[{ backgroundImage:'url(' + avatar[index] + ')' }]"></view>
 			</view>
+			<view class="cu-avatar-group">
+				<view class="cu-avatar round lg" v-for="(item,index) in ['a', 'b', 'c', 'd']" :key="index">
+					{{ item }}
+				</view>
+			</view>
 		</view>
+		<Comment>
+			<ol>
+				<li>一般元素都要加 round</li>
+				<li>需要对数组 reverse</li>
+			</ol>
+		</Comment>
 
 		<view class="cu-bar bg-white margin-top">
 			<view class="action">
@@ -89,7 +121,18 @@
 			<view class="cu-avatar round lg margin-left"  v-for="(item,index) in avatar" :key="index" :style="[{ backgroundImage:'url(' + avatar[index] + ')' }]">
 				<view class="cu-tag badge" :class="index%2==0?'cuIcon-female bg-pink':'cuIcon-male bg-blue'"></view>
 			</view>
+			<view
+				class="cu-avatar lg margin-left"
+				:class="index%2==0 ? 'round' : ''"
+			 	v-for="(item,index) in avatar"
+				:key="index" :style="[{ backgroundImage:'url(' + avatar[index] + ')' }]"
+			>
+				<view class="cu-tag badge">{{ index%2==0 ? '99+' : 'test' }}</view>
+			</view>
 		</view>
+		<Comment>
+			.cu-tag.badge （avatar 不能没有 .badge）
+		</Comment>
 
 	</view>
 </template>
