@@ -1,18 +1,29 @@
 <template>
 	<view>
-		<cu-custom bgColor="bg-gradual-blue" :isBack="true"><block slot="backText">返回</block><block slot="content">加载</block>
+		<cu-custom bgColor="bg-gradual-blue" :isBack="true">
+			<block slot="backText">返回</block>
+			<block slot="content">加载</block>
 			<block slot="right">
 				<view class="action">
 					<view class="cu-load load-cuIcon" :class="!isLoad?'loading':'over'"></view>
 				</view>
 			</block>
 		</cu-custom>
+
 		<view class="cu-bar bg-white">
 			<view class="action">
 				<text class="cuIcon-title text-blue"></text>背景
 			</view>
 		</view>
 		<view class="cu-load bg-blue" :class="!isLoad?'loading':'over'"></view>
+		<Comment>
+			<ol>
+				<li>cu-load</li>
+				<li>bg-n 设置背景颜色</li>
+				<li>3种状态：.loading, .over .erro</li>
+			</ol>
+		</Comment>
+
 		<view class="cu-bar bg-white margin-top">
 			<view class="action">
 				<text class="cuIcon-title text-blue"></text>加载状态
@@ -22,12 +33,14 @@
 			</view>
 		</view>
 		<view class="cu-load bg-grey" :class="!isLoad?'loading':'over'"></view>
+
 		<view class="cu-bar bg-white margin-top">
 			<view class="action">
 				<text class="cuIcon-title text-blue"></text>加载错误
 			</view>
 		</view>
 		<view class="cu-load bg-red erro"></view>
+		<view class="cu-load" :class="fancyLoadStyle"></view>
 
 		<view class="cu-bar bg-white margin-top">
 			<view class="action">
@@ -69,8 +82,34 @@
 				CustomBar: this.CustomBar,
 				isLoad:false,
 				loadModal: false,
-				loadProgress: 0
+				loadProgress: 0,
+				fancyLoading: {
+					cnt: 0,
+					loading: false,
+					erro: false,
+				}
 			};
+		},
+		created() {
+			setInterval(() => {
+				this.fancyLoading.cnt++;
+				let { cnt } = this.fancyLoading;
+				this.fancyLoading.loading = false;
+				this.fancyLoading.erro = false;
+				if (cnt % 2 === 0) this.fancyLoading.loading = true;
+				if (cnt % 3 === 0) this.fancyLoading.erro = true;
+			}, 1000);
+		},
+		computed: {
+			fancyLoadStyle() {
+				return {
+					loading: this.fancyLoading.loading,
+					over: !this.fancyLoading.loading && !this.fancyLoading.erro,
+					erro: !this.fancyLoading.loading && this.fancyLoading.erro,
+					'bg-red': this.fancyLoading.erro,
+					'bg-blue': !this.fancyLoading.erro,
+				};
+			},
 		},
 		methods: {
 			isLoading(e) {
