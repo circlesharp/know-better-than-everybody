@@ -1,6 +1,7 @@
 <template>
 	<view>
 		<cu-custom bgColor="bg-gradual-blue" :isBack="true"><block slot="backText">返回</block><block slot="content">进度条</block></cu-custom>
+
 		<view class="cu-bar bg-white solid-bottom">
 			<view class="action">
 				<text class="cuIcon-title text-blue"></text>进度条形状
@@ -8,7 +9,7 @@
 		</view>
 		<view class="padding bg-white">
 			<view class="cu-progress">
-				<view class="bg-red" :style="[{ width:loading?'61.8%':''}]">61.8%</view>
+				<view class="bg-red" :style="[{ width: progerssStr }]">{{ progerssStr }}</view>
 			</view>
 			<view class="cu-progress radius margin-top">
 				<view class="bg-red" :style="[{ width:loading?'61.8%':''}]">61.8%</view>
@@ -17,6 +18,15 @@
 				<view class="bg-red" :style="[{ width:loading?'61.8%':''}]">61.8%</view>
 			</view>
 		</view>
+		<Comment>
+			<ol>
+				<li>子级 bg-n, width, text</li>
+				<li>父级 cu-progress</li>
+				<li>radius, round 通用</li>
+				<li>_, sm, xs</li>
+			</ol>
+		</Comment>
+
 		<view class="cu-bar bg-white solid-bottom margin-top">
 			<view class="action">
 				<text class="cuIcon-title text-blue"></text>进度条尺寸
@@ -24,13 +34,13 @@
 		</view>
 		<view class="padding bg-white">
 			<view class="cu-progress round">
-				<view class="bg-red" :style="[{ width:loading?'61.8%':''}]"></view>
+				<view class="bg-red" :style="[{ width:loading?'61.8%':''}]">default</view>
 			</view>
 			<view class="cu-progress round margin-top sm">
-				<view class="bg-red" :style="[{ width:loading?'61.8%':''}]"></view>
+				<view class="bg-red" :style="[{ width:loading?'61.8%':''}]">sm</view>
 			</view>
 			<view class="cu-progress round margin-top xs">
-				<view class="bg-red" :style="[{ width:loading?'61.8%':''}]"></view>
+				<view class="bg-red" :style="[{ width:loading?'61.8%':''}]">xs</view>
 			</view>
 		</view>
 
@@ -47,7 +57,9 @@
 				<view :class="'bg-' + color" :style="[{ width:loading?'61.8%':''}]"></view>
 			</view>
 		</view>
-
+		<Comment>
+			todo: 这个 modal 很秀，留着以后研究
+		</Comment>
 
 		<view class="cu-bar bg-white solid-bottom margin-top">
 			<view class="action">
@@ -60,9 +72,18 @@
 				<view class="bg-green" :style="[{ width:loading?'60%':''}]"></view>
 			</view>
 			<view class="cu-progress round sm margin-top-sm striped" :class="active?'active':''">
-				<view class="bg-black" :style="[{ width:loading?'40%':''}]"></view>
+				<view class="bg-black" :style="[{ width:loading?'40%':''}]">40%</view>
 			</view>
 		</view>
+		<Comment>
+			<ol>
+				<li>条纹：.striped</li>
+				<li>条纹会动：.striped.active</li>
+				<li>有条纹依然可以写内容</li>
+				<li>实现：background-image: linear-gradient()</li>
+			</ol>
+		</Comment>
+
 		<view class="cu-bar bg-white solid-bottom margin-top">
 			<view class="action">
 				<text class="cuIcon-title text-blue"></text>进度条比例
@@ -75,6 +96,10 @@
 				<view class="bg-cyan" :style="[{ width:loading?'25%':''}]">25%</view>
 			</view>
 		</view>
+		<Comment>
+			在一个父级 cu-progress 下有多个 子元素
+		</Comment>
+
 		<view class="cu-bar bg-white solid-bottom margin-top">
 			<view class="action">
 				<text class="cuIcon-title text-blue"></text>进度条布局
@@ -89,11 +114,15 @@
 			</view>
 			<view class="flex margin-top">
 				<view class="cu-progress round">
-					<view class="bg-green" :style="[{ width:loading?'80%':''}]"></view>
+					<view class="bg-red" :style="[{ width:loading?'20%':''}]"></view>
+					<view class="bg-green" :style="[{ width:loading?'60%':''}]"></view>
 				</view>
 				<text class="margin-left">80%</text>
 			</view>
 		</view>
+		<Comment>
+			使用了 flex 布局，并控制了之间的 margin
+		</Comment>
 
 		<view class="cu-modal" :class="modalName=='ColorModal'?'show':''">
 			<view class="cu-dialog">
@@ -120,15 +149,21 @@
 				ColorList: this.ColorList,
 				color: 'red',
 				loading: false,
+				greatLoading: false,
+				finalLoading: false,
 				modalName: '',
+				progerssStr: '0.0%',
 				active: false
 			};
 		},
 		onLoad: function() {
 			let that = this;
 			setTimeout(function() {
-				that.loading = true
-			}, 500)
+				that.loading = true;
+				that.progerssStr = '61.8%';
+			}, 500);
+			setTimeout(() => { this.greatLoading = true; this.progerssStr = '88.8%'; }, 1500)
+			setTimeout(() => { this.finalLoading = true; this.progerssStr = '100%'; }, 2000)
 		},
 		methods: {
 			showModal(e) {
