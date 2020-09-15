@@ -133,6 +133,26 @@
 <style>
 	@import "colorui/main.css";
 	@import "colorui/icon.css";
+  
+  .bg-yp-orange {
+  	background-color: #FFAF2E;
+  	color: #ffffff;
+  }
+  
+  /* 布局 */
+  .radius-10 {
+    border-radius: 20upx;
+  }
+  
+  /* 字体 */
+  
+  /* 颜色 */
+  
+  .cu-btn.yp-sm {
+  	padding: 0 30upx;
+  	font-size: 26upx;
+  	height: 48upx;
+  }
 
 	.nav-list {
 		display: flex;

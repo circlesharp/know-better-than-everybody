@@ -5,6 +5,10 @@
 			"path": "pages/index/index",
 			"style": {}
 		},
+    {
+      "path": "pages/test/test",
+      "style": {}
+    },
 		{
 			"path": "pages/basics/layout",
 			"style": {}
