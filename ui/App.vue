@@ -133,6 +133,8 @@
 <style>
 	@import "colorui/main.css";
 	@import "colorui/icon.css";
+  @import "common/iconfont.css";
+  @import "common/icon.css";
   
   .bg-yp-orange {
   	background-color: #FFAF2E;
