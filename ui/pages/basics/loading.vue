@@ -9,6 +9,9 @@
 				</view>
 			</block>
 		</cu-custom>
+		<Comment>
+			.cu-load.load-cuIcon 只显示图标
+		</Comment>
 
 		<view class="cu-bar bg-white">
 			<view class="action">
@@ -52,11 +55,14 @@
 				</button>
 			</view>
 		</view>
+
+		<!-- load-modal -->
 		<view class="cu-load load-modal" v-if="loadModal">
 			<!-- <view class="cuIcon-emojifill text-orange"></view> -->
 			<image src="/static/logo.png" mode="aspectFit"></image>
 			<view class="gray-text">加载中...</view>
 		</view>
+
 		<view class="cu-bar bg-white margin-top">
 			<view class="action">
 				<text class="cuIcon-title text-blue"></text>进度条加载
@@ -67,6 +73,7 @@
 				</button>
 			</view>
 		</view>
+		<!-- load-progress -->
 		<view class="load-progress" :class="loadProgress!=0?'show':'hide'" :style="[{top:CustomBar+'px'}]">
 			<view class="load-progress-bar bg-green" :style="[{transform: 'translate3d(-' + (100-loadProgress) + '%, 0px, 0px)'}]"></view>
 			<view class="load-progress-spinner text-green"></view>
