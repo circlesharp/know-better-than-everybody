@@ -1,16 +1,34 @@
 <template>
 	<view>
 		<cu-custom bgColor="bg-gradual-pink" :isBack="true"><block slot="backText">返回</block><block slot="content">导航栏</block></cu-custom>
-		<view v-for="(item,index) in 10" :key="index" v-if="index==TabCur" class="bg-grey padding margin text-center">
-			Tab{{index}}
+		
+		<view class="bg-grey padding margin text-center">
+			Tab{{TabCur}}
 		</view>
+
+		<button class="root">test</button>
+		<view class="bg-grey" style="height: 200px;"></view>
+		<button class="root2">test2</button>
+
 		<view class="cu-bar bg-white solid-bottom">
 			<view class="action">
 				<text class="cuIcon-title text-orange"></text> 默认
 			</view>
 		</view>
-		<scroll-view scroll-x class="bg-white nav" scroll-with-animation :scroll-left="scrollLeft">
-			<view class="cu-item" :class="index==TabCur?'text-green cur':''" v-for="(item,index) in 10" :key="index" @tap="tabSelect" :data-id="index">
+		<scroll-view
+			scroll-x
+			scroll-with-animation
+			class="bg-white nav scroll"
+			:scroll-left="scrollLeft"
+		>
+			<view
+				class="cu-item"
+				:class="index==TabCur?'text-green cur':''"
+				v-for="(item,index) in 10"
+				:key="index"
+				:data-id="index"
+				@tap="tabSelect"
+			>
 				Tab{{index}}
 			</view>
 		</scroll-view>
@@ -79,9 +97,24 @@
 		methods: {
 			tabSelect(e) {
 				this.TabCur = e.currentTarget.dataset.id;
-				this.scrollLeft = (e.currentTarget.dataset.id - 1) * 60
+				this.scrollLeft = (e.currentTarget.dataset.id - 1) * 60;
+				console.log('scrollLeft', this.scrollLeft);
 			}
-		}
+		},
+		mounted() {
+			this.mogai();
+		},
+		methods: {
+			mogai() {
+				const query = uni.createSelectorQuery();
+				query.select('.root').boundingClientRect();
+				query.selectViewport().scrollOffset();
+				query.select('.scroll').scrollOffset();
+				query.exec((e) => {
+					console.log(e)
+				})
+			}
+		},
 	}
 </script>
 
