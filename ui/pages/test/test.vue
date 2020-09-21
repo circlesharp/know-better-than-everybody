@@ -1,71 +1,49 @@
 <template>
-  <view class="bg-grey">
-    <view class="test">test</view>
+  <view
+    class="flex flex-direction align-center justify-center bg-white"
+    :style="style"
+  >
+    <image class="img" :src="img" mode=""></image>
+    <view class="text">{{ text }}</view>
   </view>
 </template>
 
-<style>
-.test {
-  font-size: 33px;
-}
-.test::before {
-	/* font-family: "cuIcon"; */
-  font-family: "iconfont";
-  content: '\e6c3';
-	display: inline-block;
-	margin-right: 6upx;
-  color: red;
-}
-</style>
-
 <script>
-import mock from './mock.js';
-const cabinetIcon = '';
-const deviceIcon = '';
-
 export default {
+  props: {
+    height: {
+      type: Number,
+      default: 400,
+    },
+    text: {
+      type: String,
+      default: '这里什么也没有～',
+    },
+  },
   data() {
     return {
-      Device: mock,
-      DeviceList: mock.DeviceList,
-      filtedDeviceList: mock.DeviceList,
-      modalShow: !false,
-      icons: {
-        cabinet: cabinetIcon,
-        device: deviceIcon,
-      },
-      def: 1,
-      searchText: '',
+      img: '../../static/BasicsBg.png',
     };
   },
   computed: {
-    terminalType() {
-      return 'cabinet';
+    style() {
+      return {
+        height: this.height + 'px',
+      };
     },
   },
-  created() {
-    console.log(this.Device);
-  },
-  methods: {
-    showModal() {
-      this.modalShow = true;
-      console.log('showModal');
-    },
-    test() {
-      console.log('test')
-    },
-    search() {
-      this.filtedDeviceList = this.DeviceList.filter(item => item.label.includes(this.searchText))
-    },
-    hideModal() {
-      this.modalShow = false;
-    },
-    radioChange(e) {
-      const CID = e.detail.value;
-      const { label } = this.Device.DeviceList.find(i => i.value === CID);
-      const rst = { CID, label };
-      console.log(rst)
-    },
-  },
-};
+}
 </script>
+
+<style>
+.img {
+  width: 400upx;
+  height: 256upx;
+}
+.text {
+  margin-top: 60upx;
+  color: #999999;
+  font-size: 28upx;
+  line-height: 40upx;
+}
+</style>

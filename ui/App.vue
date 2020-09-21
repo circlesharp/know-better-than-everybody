@@ -141,6 +141,21 @@
   	color: #ffffff;
   }
   
+  .yp-btn-orange {
+    background-color: #FFAF2E !important;
+    color: #ffffff !important;
+    font-size: 26upx !important;
+    line-height: 52upx !important;
+    height: 52upx !important;
+    padding: 8upx 44upx !important;
+  }
+  .list-border-top {
+    border-top: solid 2upx #eee;
+  }
+  .list-border-bottom {
+    border-bottom: solid 2upx #eee;
+  }
+  
   /* 布局 */
   .radius-10 {
     border-radius: 20upx;
