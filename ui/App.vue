@@ -141,6 +141,10 @@
   	color: #ffffff;
   }
   
+  .text-yp-orange {
+    color: #FFAF2E;
+  }
+  
   .yp-btn-orange {
     background-color: #FFAF2E !important;
     color: #ffffff !important;
@@ -149,6 +153,16 @@
     height: 52upx !important;
     padding: 8upx 44upx !important;
   }
+  .yp-btn-orange-line {
+    background-color: #ffffff !important;
+    color: #FFAF2E !important;
+    border-color: #FFAF2E !important;
+    font-size: 26upx !important;
+    line-height: 52upx !important;
+    height: 52upx !important;
+    padding: 8upx 44upx !important;
+  }
+
   .list-border-top {
     border-top: solid 2upx #eee;
   }
