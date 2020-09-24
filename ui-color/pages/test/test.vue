@@ -1,43 +1,66 @@
 <template>
 	<view class="container">
-		<!-- part 1 tap -->
+
+		<!-- part 1 tap-left -->
+		<scroll-view
+			scroll-y
+			scroll-anchoring
+			class="scroll-left"
+			:scroll-with-animation="isTap"
+			:scroll-into-view="scrollView_leftId"
+			:style="{ height: height + 'px', top: top + 'px', width: leftOffset + 'px' }"
+		>
+			<view
+				class="tab-bar-item"
+				:class="[currentCate === index ? 'active' : '']"
+				:id="`left_${index}`"
+				v-for="(cate, index) in catesGroups.cates"
+				:key="index"
+				@tap.stop="swichLeft(index)"
+			>
+				<text>{{ cate }}</text>
+			</view>
+		</scroll-view>
+
+		<!-- part 2 tap-top -->
 		<scroll-view
 			scroll-x
 			scroll-anchoring
+			class="scroll-top"
+			:style="{ top: headerOffset + 'px', paddingLeft: leftOffset + 'px' }"
 			:scroll-with-animation="isTap"
 			:scroll-into-view="scrollView_leftId"
 		>
 			<view class="flex" style="white-space: nowrap;">
 				<block
-					v-for="(item, index) in tabbar"
+					v-for="(group, index) in catesGroups.groups[currentCate]"
 					:key="index"
 				>
 					<view :id="`left_${index}`">
 						<button
-							class="cu-btn margin-right-sm"
+							class="btn cu-btn margin-right-sm"
 							
-							:class="[currentTab == index ? 'bg-red' : 'bg-white']"
-							@tap.stop="swichNav(index)"
+							:class="[currentTab === index ? 'active' : '']"
+							@tap.stop="switchTop(index)"
 						>
-							{{ item }}
+							{{ `tap - ${group}` }}
 						</button>
 					</view>
 				</block>
 			</view>
 		</scroll-view>
 
-		<!-- part 2 scroll -->
+		<!-- part 3 scroll -->
 		<scroll-view
 			@scroll="scroll"
 			scroll-anchoring
 			scroll-y
 			scroll-with-animation
-			class="right-box"
+			class="scroll-main"
 			:scroll-into-view="scrollView_rightId"
-			:style="{ height: height + 'px', top: top + 'px',}"
+			:style="{ height: height + 'px', top: top + 'px', paddingLeft: leftOffset + 'px'}"
 		>
-			<!--内容部分 start 自定义可删除-->
-			<block v-for="(item, index) in tabbar" :key="index">
+			<block v-for="(item, index) in mock[Object.keys(mock)[currentCate]]" :key="index">
 				<Linkage
           :distanceTop="distanceTop"
           :recalc="1"
@@ -46,23 +69,29 @@
           @linkage="linkage"
         >
 					<view class="page-view" :id="`right_${index}`">
-						<view class="bg-grey" style="width: 100%; height: 100px;">
+						<view class="bg-grey solid padding-xs" style="width: 100%; height: 100px;">
 							{{ item }}
 						</view>
 					</view>
 				</Linkage>
 			</block>
-			<!--内容部分 end 自定义可删除-->
 		</scroll-view>
 	</view>
 </template>
 
 <script>
 import Linkage from './Linkage';
+import mock from './tree.mock';
 
-const TAP_SCROLL_THRESHOLD = 2;
-const TAP_SCROLL_OFFSET = 2;
-const HEADER_HEIGHT = 32;
+const TOP_SCROLL_THRESHOLD = 2;
+const TOP_SCROLL_OFFSET = 2;
+const LEFT_SCROLL_THRESHOLD = 6;
+const LEFT_SCROLL_OFFSET = 2;
+const HEADER_HEIGHT = 46;
+const ACTUAL_HEIGHT = 500;
+
+const HEADER_OFFSET = 100;
+const LEFT_OFFSET = 80;
 
 export default {
 	components: {
@@ -70,72 +99,64 @@ export default {
 	},
 	data() {
 		return {
-			tabbar: [
-				'推荐分类',
-				'进口超市',
-				'国际名牌',
-				'奢侈品',
-				'海囤全球',
-				'男装',
-				'女装',
-				'男鞋',
-				'女鞋',
-				'钟表珠宝',
-				'手机数码',
-				'电脑办公',
-				'家用电器',
-				'玩具乐器',
-				'运动户外',
-				'宠物生活',
-				'特产馆'
-			],
+			mock,
+			leftOffset: LEFT_OFFSET,
+			headerOffset: HEADER_OFFSET,
 			height: 0, //scroll-view高度
 			top: 0,
+			currentCate: 0,
 			currentTab: 0, //预设当前项的值
 			scrollView_leftId: 'left_0', // tap 的起点
 			scrollView_rightId: 'right_0', // scroll 的起点
 			scrollTop: 0,
-			distanceTop: HEADER_HEIGHT,
+			distanceTop: HEADER_HEIGHT + HEADER_OFFSET,
 			isScroll: true,
 			isTap: true
 		};
 	},
+	computed: {
+		catesGroups() {
+			const cates = Object.keys(this.mock).map(i => i);
+			const groups = [];
+			cates.forEach(i => {
+				groups.push(Object.keys(this.mock[i]));
+			})
+			return { cates, groups };
+		},
+	},
 	/* 只控制 height, top */
 	onLoad: function(options) {
-		setTimeout(() => {
-			uni.getSystemInfo({
-				success: res => {
-					let top = 0;
-					this.height = res.windowHeight - HEADER_HEIGHT;
-					this.top = top + HEADER_HEIGHT;
-				}
-			});
-		}, 50);
+		this.height = ACTUAL_HEIGHT - HEADER_HEIGHT;
+		this.top = HEADER_HEIGHT + HEADER_OFFSET;
 	},
 	methods: {
 		// 点击标题切换当前页时改变样式
-		swichNav: function(cur) {
+		swichLeft(cur) {
+			if (this.currentCate === cur) return false;
+			this.currentCate = cur;
+			// this.checkCor('LEFT');
+		},
+		switchTop(cur) {
 			if (this.currentTab == cur) return false;
 			this.currentTab = cur;
-			this.checkCor();
+			this.checkCor('TOP');
 		},
 		//判断当前滚动超过一屏时，设置tab标题滚动条。
-		checkCor: function(isScroll) {
-			if (!isScroll) {
-				/* 由 tap 而触发 */
-				this.isScroll = false;
-				this.isTap = true;
-				if (this.currentTab > TAP_SCROLL_THRESHOLD) {
-					this.scrollView_leftId = `left_${this.currentTab - TAP_SCROLL_OFFSET}`;
-				} else {
-					this.scrollView_leftId = `left_0`;
-				}
-				this.scrollView_rightId = `right_${this.currentTab}`;
-			} else {
-				/* 由 scroll 而触发 */
+		checkCor: function(from) {
+			/* 由 scroll 触发 */
+			if (!from) {
 				this.scrollView_leftId = `left_${this.currentTab}`;
+				return;
 			}
-			console.log('scroll-into-view', this.scrollView_leftId, this.currentTab);
+			/* 由 tap 而触发 */
+			this.isScroll = false;
+			this.isTap = true;
+			if (this.currentTab > TOP_SCROLL_THRESHOLD) {
+				this.scrollView_leftId = `left_${this.currentTab - TOP_SCROLL_OFFSET}`;
+			} else {
+				this.scrollView_leftId = `left_0`;
+			}
+			this.scrollView_rightId = `right_${this.currentTab}`;
 		},
 		scroll(e) {
 			//动画时长固定300ms
@@ -151,61 +172,68 @@ export default {
 			if (e.isLinkage && e.index != this.currentTab) {
 				this.isTap = false;
 				this.currentTab = e.index;
-				this.checkCor(true);
+				this.checkCor();
 			}
 		},
 	}
 };
 </script>
 
-<style>
+<style lang="scss" scoped>
+
+$yp-orange: #FFAF2E;
+$yp-orange-light: #FFF4E2;
+$yp-black: #333;
+
 page {
 	background-color: #f1f1f1;
 }
 
-/* 左侧导航布局 start*/
-
-.tab-view {
-	width: 750upx;
-	height: 100%;
+/* 左侧导航布局 start */
+.scroll-left {
 	position: fixed;
-	flex-direction: column;
-	left: 0;
-	z-index: 10;
+	z-index: 11;
+	color: $yp-black;
+	font-size: 26upx;
+	.tab-bar-item {
+		height: 80upx;
+		line-height: 80upx;
+		text-align: center;
+		&.active {
+			color: $yp-orange;
+			font-size: 28upx;
+			background-color: #fff;
+		}
+	}
+}
+/* 左侧导航布局 end */
+
+
+
+/* 左侧导航布局 start */
+
+.scroll-top {
+	position: fixed;
 }
 
-.tab-bar-item {
-	width: 200rpx;
-	height: 110rpx;
-	background: #f6f6f6;
-	box-sizing: border-box;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	font-size: 26rpx;
-	color: #444;
-	font-weight: 400;
+.btn {
+	margin: 20upx 0;
+	margin-right: 20upx;
+	padding: 0 20upx;
+	height: 52upx;
+	color: #666;
+	background-color: #F6F6F6;
+	font-size: 24upx;
+	line-height: 52upx;
+	&.active {
+		color: $yp-orange;
+		background-color: $yp-orange-light;
+	}
 }
-
-.active {
-	position: relative;
-	color: #000;
-	font-size: 30rpx;
-	font-weight: 600;
-	background: #fcfcfc;
-}
-
-/* .active::before {
-	content: '';
-	position: absolute;
-	border-left: 8rpx solid #e41f19;
-	height: 30rpx;
-	left: 0;
-} */
 
 /* 左侧导航布局 end*/
 
-.right-box {
+.scroll-main {
 	width: 100%;
 	position: fixed;
 	box-sizing: border-box;
@@ -215,8 +243,6 @@ page {
 .page-view {
 	width: 100%;
 	overflow: hidden;
-	padding-top: 20rpx;
-	padding-right: 20rpx;
 	box-sizing: border-box;
 	padding-bottom: env(safe-area-inset-bottom);
 }
