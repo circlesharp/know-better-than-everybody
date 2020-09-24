@@ -1,32 +1,26 @@
 <template>
 	<view class="container">
-		<!-- part 1 tap -->
+
 		<scroll-view
-			scroll-x
-			scroll-anchoring
+			scroll-y
 			:scroll-with-animation="isTap"
+			scroll-anchoring
+			class="tab-view"
 			:scroll-into-view="scrollView_leftId"
+			:style="{ height: height + 'px', top: top + 'px' }"
 		>
-			<view class="flex" style="white-space: nowrap;">
-				<block
-					v-for="(item, index) in tabbar"
-					:key="index"
-				>
-					<view :id="`left_${index}`">
-						<button
-							class="cu-btn margin-right-sm"
-							
-							:class="[currentTab == index ? 'bg-red' : 'bg-white']"
-							@tap.stop="swichNav(index)"
-						>
-							{{ item }}
-						</button>
-					</view>
-				</block>
+			<view
+				:id="`left_${index}`"
+				v-for="(item, index) in tabbar"
+				:key="index"
+				class="tab-bar-item"
+				:class="[currentTab == index ? 'active' : '']"
+				:data-current="index"
+				@tap.stop="swichNav"
+			>
+				<text>{{ item }}</text>
 			</view>
 		</scroll-view>
-
-		<!-- part 2 scroll -->
 		<scroll-view
 			@scroll="scroll"
 			scroll-anchoring
@@ -34,11 +28,11 @@
 			scroll-with-animation
 			class="right-box"
 			:scroll-into-view="scrollView_rightId"
-			:style="{ height: height + 'px', top: top + 'px',}"
+			:style="{ height: height + 'px', top: top + 'px' }"
 		>
 			<!--内容部分 start 自定义可删除-->
 			<block v-for="(item, index) in tabbar" :key="index">
-				<Linkage
+				<t-linkage
           :distanceTop="distanceTop"
           :recalc="1"
           :scrollTop="scrollTop"
@@ -46,11 +40,16 @@
           @linkage="linkage"
         >
 					<view class="page-view" :id="`right_${index}`">
-						<view class="bg-grey" style="width: 100%; height: 100px;">
-							{{ item }}
+						<view class="class-box">
+							<view class="class-item">
+								<view class="class-name">{{ item }}</view>
+								<view class="g-container">
+                  <view :style="{height: 100 * index + 'px'}">test</view>
+								</view>
+							</view>
 						</view>
 					</view>
-				</Linkage>
+				</t-linkage>
 			</block>
 			<!--内容部分 end 自定义可删除-->
 		</scroll-view>
@@ -58,15 +57,10 @@
 </template>
 
 <script>
-import Linkage from './Linkage';
-
-const TAP_SCROLL_THRESHOLD = 2;
-const TAP_SCROLL_OFFSET = 2;
-const HEADER_HEIGHT = 32;
-
+import tLinkage from '@/components/views/t-linkage/t-linkage';
 export default {
 	components: {
-		Linkage
+		tLinkage
 	},
 	data() {
 		return {
@@ -92,50 +86,65 @@ export default {
 			height: 0, //scroll-view高度
 			top: 0,
 			currentTab: 0, //预设当前项的值
-			scrollView_leftId: 'left_0', // tap 的起点
-			scrollView_rightId: 'right_0', // scroll 的起点
+			scrollView_leftId: 'left_0',
+			scrollView_rightId: 'right_0',
 			scrollTop: 0,
-			distanceTop: HEADER_HEIGHT,
+			distanceTop: uni.upx2px(92),
 			isScroll: true,
 			isTap: true
 		};
 	},
-	/* 只控制 height, top */
 	onLoad: function(options) {
 		setTimeout(() => {
 			uni.getSystemInfo({
 				success: res => {
+					let header = 92;
 					let top = 0;
-					this.height = res.windowHeight - HEADER_HEIGHT;
-					this.top = top + HEADER_HEIGHT;
+					//#ifdef H5
+					top = 44;
+					//#endif
+					this.height = res.windowHeight - uni.upx2px(header);
+					this.top = top + uni.upx2px(header);
 				}
 			});
 		}, 50);
 	},
 	methods: {
 		// 点击标题切换当前页时改变样式
-		swichNav: function(cur) {
-			if (this.currentTab == cur) return false;
-			this.currentTab = cur;
-			this.checkCor();
+		swichNav: function(e) {
+			let cur = e.currentTarget.dataset.current;
+			if (this.currentTab == cur) {
+				return false;
+			} else {
+				this.currentTab = cur;
+				this.checkCor();
+			}
 		},
 		//判断当前滚动超过一屏时，设置tab标题滚动条。
 		checkCor: function(isScroll) {
 			if (!isScroll) {
-				/* 由 tap 而触发 */
 				this.isScroll = false;
 				this.isTap = true;
-				if (this.currentTab > TAP_SCROLL_THRESHOLD) {
-					this.scrollView_leftId = `left_${this.currentTab - TAP_SCROLL_OFFSET}`;
+				if (this.currentTab > 6) {
+					this.scrollView_leftId = `left_${this.currentTab - 2}`;
 				} else {
 					this.scrollView_leftId = `left_0`;
 				}
 				this.scrollView_rightId = `right_${this.currentTab}`;
 			} else {
-				/* 由 scroll 而触发 */
 				this.scrollView_leftId = `left_${this.currentTab}`;
 			}
-			console.log('scroll-into-view', this.scrollView_leftId, this.currentTab);
+		},
+		productList(e) {
+			let key = e.currentTarget.dataset.key;
+			uni.navigateTo({
+				url: '/pages/template/mall/productList/productList?searchKey=' + key
+			});
+		},
+		search: function() {
+			uni.navigateTo({
+				url: '/pages/template/news/search/search'
+			});
 		},
 		scroll(e) {
 			//动画时长固定300ms
@@ -153,23 +162,67 @@ export default {
 				this.currentTab = e.index;
 				this.checkCor(true);
 			}
-		},
+		}
 	}
 };
 </script>
 
 <style>
 page {
-	background-color: #f1f1f1;
+	background-color: #fcfcfc;
 }
 
 /* 左侧导航布局 start*/
 
-.tab-view {
-	width: 750upx;
-	height: 100%;
+.tui-searchbox {
+	width: 100%;
+	height: 92rpx;
+	padding: 0 30rpx;
+	box-sizing: border-box;
+	background-color: #fff;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 	position: fixed;
-	flex-direction: column;
+	left: 0;
+	top: 0;
+	/* #ifdef H5 */
+	top: 44px;
+	/* #endif */
+	z-index: 100;
+}
+
+.tui-searchbox::after {
+	content: '';
+	position: absolute;
+	border-bottom: 1rpx solid #d2d2d2;
+	-webkit-transform: scaleY(0.5);
+	transform: scaleY(0.5);
+	bottom: 0;
+	right: 0;
+	left: 0;
+}
+
+.tui-search-input {
+	width: 100%;
+	height: 60rpx;
+	background: #f1f1f1;
+	border-radius: 30rpx;
+	font-size: 26rpx;
+	color: #999;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.tui-search-text {
+	padding-left: 16rpx;
+}
+
+.tab-view {
+	/* height: 100%; */
+	width: 200rpx;
+	position: fixed;
 	left: 0;
 	z-index: 10;
 }
@@ -195,19 +248,20 @@ page {
 	background: #fcfcfc;
 }
 
-/* .active::before {
+.active::before {
 	content: '';
 	position: absolute;
 	border-left: 8rpx solid #e41f19;
 	height: 30rpx;
 	left: 0;
-} */
+}
 
 /* 左侧导航布局 end*/
 
 .right-box {
 	width: 100%;
 	position: fixed;
+	padding-left: 220rpx;
 	box-sizing: border-box;
 	left: 0;
 }
@@ -221,4 +275,41 @@ page {
 	padding-bottom: env(safe-area-inset-bottom);
 }
 
+.class-item {
+	background: #fff;
+	width: 100%;
+	box-sizing: border-box;
+	padding: 20rpx;
+	margin-bottom: 20rpx;
+	border-radius: 12rpx;
+}
+
+.class-name {
+	font-size: 26rpx;
+	font-weight: bold;
+}
+
+.g-container {
+	/* padding-top: 20rpx; */
+	display: flex;
+	display: -webkit-flex;
+	justify-content: flex-start;
+	flex-direction: row;
+	flex-wrap: wrap;
+}
+
+.g-box {
+	width: 33.3333%;
+	text-align: center;
+	padding-top: 40rpx;
+}
+
+.g-image {
+	width: 120rpx;
+	height: 120rpx;
+}
+
+.g-title {
+	font-size: 22rpx;
+}
 </style>

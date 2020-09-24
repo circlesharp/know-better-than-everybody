@@ -1,32 +1,26 @@
 <template>
 	<view class="container">
-		<!-- part 1 tap -->
+
+		<!-- part 1 左边 -->
 		<scroll-view
-			scroll-x
+			scroll-y
 			scroll-anchoring
+			class="tab-view"
 			:scroll-with-animation="isTap"
 			:scroll-into-view="scrollView_leftId"
+			:style="{ height: height + 'px', top: top + 'px' }"
 		>
-			<view class="flex" style="white-space: nowrap;">
-				<block
-					v-for="(item, index) in tabbar"
-					:key="index"
-				>
-					<view :id="`left_${index}`">
-						<button
-							class="cu-btn margin-right-sm"
-							
-							:class="[currentTab == index ? 'bg-red' : 'bg-white']"
-							@tap.stop="swichNav(index)"
-						>
-							{{ item }}
-						</button>
-					</view>
-				</block>
+			<view
+				class="tab-bar-item"
+				:class="[currentTab == index ? 'active' : '']"
+				:id="`left_${index}`"
+				v-for="(item, index) in tabbar"
+				:key="index"
+				@tap.stop="swichNav(index)"
+			>
+				<text>{{ item }}</text>
 			</view>
 		</scroll-view>
-
-		<!-- part 2 scroll -->
 		<scroll-view
 			@scroll="scroll"
 			scroll-anchoring
@@ -34,7 +28,7 @@
 			scroll-with-animation
 			class="right-box"
 			:scroll-into-view="scrollView_rightId"
-			:style="{ height: height + 'px', top: top + 'px',}"
+			:style="{ height: height + 'px', top: top + 'px' }"
 		>
 			<!--内容部分 start 自定义可删除-->
 			<block v-for="(item, index) in tabbar" :key="index">
@@ -60,9 +54,9 @@
 <script>
 import Linkage from './Linkage';
 
-const TAP_SCROLL_THRESHOLD = 2;
+const TAP_SCROLL_THRESHOLD = 6;
 const TAP_SCROLL_OFFSET = 2;
-const HEADER_HEIGHT = 32;
+const HEADER_HEIGHT = 150;
 
 export default {
 	components: {
@@ -135,7 +129,6 @@ export default {
 				/* 由 scroll 而触发 */
 				this.scrollView_leftId = `left_${this.currentTab}`;
 			}
-			console.log('scroll-into-view', this.scrollView_leftId, this.currentTab);
 		},
 		scroll(e) {
 			//动画时长固定300ms
@@ -166,10 +159,9 @@ page {
 /* 左侧导航布局 start*/
 
 .tab-view {
-	width: 750upx;
-	height: 100%;
+	/* height: 100%; */
+	width: 200upx;
 	position: fixed;
-	flex-direction: column;
 	left: 0;
 	z-index: 10;
 }
@@ -195,19 +187,20 @@ page {
 	background: #fcfcfc;
 }
 
-/* .active::before {
+.active::before {
 	content: '';
 	position: absolute;
 	border-left: 8rpx solid #e41f19;
 	height: 30rpx;
 	left: 0;
-} */
+}
 
 /* 左侧导航布局 end*/
 
 .right-box {
 	width: 100%;
 	position: fixed;
+	padding-left: 220rpx;
 	box-sizing: border-box;
 	left: 0;
 }
