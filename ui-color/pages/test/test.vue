@@ -14,11 +14,11 @@
 				class="tab-bar-item"
 				:class="[currentCate === index ? 'active' : '']"
 				:id="`left_${index}`"
-				v-for="(cate, index) in catesGroups.cates"
+				v-for="(cate, index) in productTree"
 				:key="index"
 				@tap.stop="swichLeft(index)"
 			>
-				<text>{{ cate }}</text>
+				<text>{{ cate.text }}</text>
 			</view>
 		</scroll-view>
 
@@ -32,21 +32,19 @@
 			:scroll-into-view="scrollView_leftId"
 		>
 			<view class="flex" style="white-space: nowrap;">
-				<block
-					v-for="(group, index) in catesGroups.groups[currentCate]"
-					:key="index"
-				>
-					<view :id="`left_${index}`">
-						<button
-							class="btn cu-btn margin-right-sm"
-							
-							:class="[currentTab === index ? 'active' : '']"
-							@tap.stop="switchTop(index)"
-						>
-							{{ `tap - ${group}` }}
-						</button>
-					</view>
-				</block>
+        <view
+          v-for="(group, index) in currentCateTree"
+          :key="index"
+          :id="`left_${index}`"
+        >
+          <button
+            class="btn cu-btn margin-right-sm"
+            :class="[currentTab === index ? 'active' : '']"
+            @tap.stop="switchTop(index)"
+          >
+            {{ group.text }}
+          </button>
+        </view>
 			</view>
 		</scroll-view>
 
@@ -60,7 +58,7 @@
 			:scroll-into-view="scrollView_rightId"
 			:style="{ height: height + 'px', top: top + 'px', paddingLeft: leftOffset + 'px'}"
 		>
-			<block v-for="(item, index) in mock[Object.keys(mock)[currentCate]]" :key="index">
+			<block v-for="(item, index) in currentCateTree" :key="index">
 				<Linkage
           :distanceTop="distanceTop"
           :recalc="1"
@@ -69,19 +67,24 @@
           @linkage="linkage"
         >
 					<view class="page-view" :id="`right_${index}`">
-						<view class="bg-grey solid padding-xs" style="width: 100%; height: 100px;">
-							{{ item }}
+            <view class="bg-pink">{{ item.text }}</view>
+						<view class="bg-grey solid padding-xs" style="width: 100%;">
+							<view v-for="(i, k) in item.children" :key="k" class="padding">
+                {{i.Name}}
+              </view>
 						</view>
 					</view>
 				</Linkage>
 			</block>
 		</scroll-view>
+    
 	</view>
 </template>
 
 <script>
 import Linkage from './Linkage';
 import mock from './tree.mock';
+import productTree from './goosListTree.mock.js';
 
 const TOP_SCROLL_THRESHOLD = 2;
 const TOP_SCROLL_OFFSET = 2;
@@ -100,8 +103,10 @@ export default {
 	data() {
 		return {
 			mock,
+      productTree: productTree[0].children,
 			leftOffset: LEFT_OFFSET,
 			headerOffset: HEADER_OFFSET,
+      distanceTop: HEADER_HEIGHT + HEADER_OFFSET,
 			height: 0, //scroll-view高度
 			top: 0,
 			currentCate: 0,
@@ -109,34 +114,31 @@ export default {
 			scrollView_leftId: 'left_0', // tap 的起点
 			scrollView_rightId: 'right_0', // scroll 的起点
 			scrollTop: 0,
-			distanceTop: HEADER_HEIGHT + HEADER_OFFSET,
 			isScroll: true,
 			isTap: true
 		};
 	},
 	computed: {
-		catesGroups() {
-			const cates = Object.keys(this.mock).map(i => i);
-			const groups = [];
-			cates.forEach(i => {
-				groups.push(Object.keys(this.mock[i]));
-			})
-			return { cates, groups };
+		currentCateTree() {
+			return this.productTree[this.currentCate].children;
 		},
 	},
 	/* 只控制 height, top */
 	onLoad: function(options) {
 		this.height = ACTUAL_HEIGHT - HEADER_HEIGHT;
 		this.top = HEADER_HEIGHT + HEADER_OFFSET;
+    console.log(this.productTree)
 	},
 	methods: {
 		// 点击标题切换当前页时改变样式
 		swichLeft(cur) {
+      console.log('swichLeft', cur);
 			if (this.currentCate === cur) return false;
 			this.currentCate = cur;
 			// this.checkCor('LEFT');
 		},
 		switchTop(cur) {
+      console.log('switchTop', cur);
 			if (this.currentTab == cur) return false;
 			this.currentTab = cur;
 			this.checkCor('TOP');
@@ -169,6 +171,7 @@ export default {
 			}
 		},
 		linkage(e) {
+      console.log('linkage', e)
 			if (e.isLinkage && e.index != this.currentTab) {
 				this.isTap = false;
 				this.currentTab = e.index;
