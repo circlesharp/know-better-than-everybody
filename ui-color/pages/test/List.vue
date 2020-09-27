@@ -2,7 +2,7 @@
   <view class="flex flex-sub" @click="onClick">
     <image
       class="solid margin-right-sm"
-      :src="`${item.ImageFixWidthUrl}?x-oss-process=image/resize,h_60`"
+      :src="`${item.ImageFixWidthUrl}?x-oss-process=image/resize,h_120`"
       style="width: 120upx; height: 120upx; margin-right: 20upx;"
       mode="aspectFit"
     ></image>
@@ -22,6 +22,7 @@ export default {
   },
   methods: {
     onClick() {
+      console.log(this.item);
       const params = {
         BarCode: this.item.BarCode,
         ProductVO: {
@@ -30,10 +31,10 @@ export default {
           ImageFixWidthUrl: this.item.ImageFixWidthUrl,
         },
       };
-      this.$emit('on-select', this.item);
+      this.$emit('on-select', params);
     },
   },
-}
+};
 </script>
 
 <style lang="scss">
