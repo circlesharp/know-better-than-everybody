@@ -22,7 +22,6 @@ export default {
   },
   methods: {
     onClick() {
-      console.log(this.item);
       const params = {
         BarCode: this.item.BarCode,
         ProductVO: {
