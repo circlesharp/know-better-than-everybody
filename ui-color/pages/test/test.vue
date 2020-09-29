@@ -1,87 +1,44 @@
 <template>
   <view>
-    <view>
-      <Search @on-search="search"/>
-    </view>
-    <view class="list-wrap">
-      <view class="cate" v-for="(cate, cateName) in productCategories" :key="cateName">
-        <view class="title">{{ cateName }}</view>
-        <block v-for="item in cate" :key="item.BarCode">
-          <view class="item">
-            <List :item="item" @on-select="onSelect" />
-          </view>
-        </block>
-      </view>
-    </view>
+    <button class="cu-btn bg-brown" @click="showModal">showModal</button>
+    <button class="cu-btn bg-cyan" @click="showLoading">showLoading</button>
+    
+    <modal ref="modal"></modal>
+    <Loading ref="loading" :loading="isLoading"></Loading>
+    
   </view>
 </template>
 
-<style lang="scss">
-.list-wrap {
-  background-color: #fff;
-  margin-top: 20upx;
-  padding: 0 24upx;
-  .cate {
-    padding-top: 20upx;
-    .title {
-      color: #999999;
-      font-size: 26upx;
-      line-height: 36upx;
-    }
-    .item {
-      padding: 20upx 0;
-    }
-  }
-  .cate+.cate {
-    border-top: 2upx solid #eee;
-  }
-}
-</style>
-
 <script>
-import mock from './mock/search-list.mock.js';
-import List from './List.vue';
-import Search from './Search.vue';
+import modal from './SimpleModal.vue';
+import Loading from './SimpleLoading.vue';
 
 export default {
-  components: { Search, List },
+  components: { modal, Loading },
   data() {
     return {
-      ProductList: mock,
+      isLoading: false,
     };
   },
-  computed: {
-    reducedProducts() {
-      return this.ProductList.map(item => {
-        return {
-          Name: item.ProductVO.Name,
-          BarCode: item.BarCode,
-          ImageFixWidthUrl: item.ProductVO.ImageFixWidthUrl,
-          ImageUrl: item.ProductVO.ImageUrl,
-          CategoryName: item.CategoryVO.Name,
-          CategoryID: item.CategoryVO.id,
-          ParentCategoryID: item.ParentCategoryVO.id,
-          ParentCategoryName: item.ParentCategoryVO.Name,
-        };
+  methods: {
+    showModal() {
+      const content = 'test modal content';
+      const confirm = e => console.log(e, 123);
+      const cancel = e => console.log(e, 456);
+      this.showSimpleModal({
+        content, confirm, cancel
       });
     },
-    productCategories() {
-      const rst = {};
-      this.reducedProducts.forEach(item => {
-        const category = item.CategoryName;
-        if (!rst[category]) rst[category] = [];
-        rst[category].push(item);
-      });
-      return rst;
-    }
+    showLoading() {
+      // this.showSimpleLoading();
+      this.isLoading = true;
+      setTimeout(() => {
+        // this.hideSimpleLoading();
+        this.isLoading = false;
+      }, 2000);
+    },
   },
-  created() {
-    console.log(this.productCategories);
-  },
-  methods: {
-    search(keyword) {
-      console.log(keyword)
-    }
-  }
 }
 </script>
+
+
