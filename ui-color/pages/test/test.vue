@@ -1,44 +1,43 @@
 <template>
   <view>
-    <button class="cu-btn bg-brown" @click="showModal">showModal</button>
-    <button class="cu-btn bg-cyan" @click="showLoading">showLoading</button>
-    
-    <modal ref="modal"></modal>
-    <Loading ref="loading" :loading="isLoading"></Loading>
-    
+    <button class="cu-btn bg-cyan" @click="showModal">show</button>
+    <BottomModal
+      ref="bottomModal"
+      title="测试标题"
+    >
+      <view class="wrap">
+        <view class="content"></view>
+      </view>
+    </BottomModal>
   </view>
 </template>
 
 <script>
-import modal from './SimpleModal.vue';
-import Loading from './SimpleLoading.vue';
+import BottomModal from './BottomModal.vue';
 
 export default {
-  components: { modal, Loading },
+  components: { BottomModal },
   data() {
     return {
-      isLoading: false,
+      
     };
   },
   methods: {
     showModal() {
-      const content = 'test modal content';
-      const confirm = e => console.log(e, 123);
-      const cancel = e => console.log(e, 456);
-      this.showSimpleModal({
-        content, confirm, cancel
-      });
-    },
-    showLoading() {
-      // this.showSimpleLoading();
-      this.isLoading = true;
-      setTimeout(() => {
-        // this.hideSimpleLoading();
-        this.isLoading = false;
-      }, 2000);
+      const bottomModal = this.$refs && this.$refs.bottomModal;
+      bottomModal.showModal();
     },
   },
 }
 </script>
 
-
+<style lang="scss" scoped>
+.wrap {
+  height: 700upx;
+  background-color: #8799A3;
+  .content {
+    height: 900upx;
+    background-color: rgba($color: #333, $alpha: .2);
+  }
+}
+</style>

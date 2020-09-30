@@ -4,6 +4,7 @@
       <view class="search-form">
         <text class="cuIcon-search"></text>
         <input
+          id="input"
           type="text"
           confirm-type="search"
           v-model="SearchVal"
@@ -14,7 +15,7 @@
           @confirm="confirm"
         />
       </view>
-      <text class="iconfont icon-quxiao1" v-if="isFocus && SearchVal" @touchstart="clear"></text>
+      <text id="icon" class="iconfont icon-quxiao1" v-if="isFocus && SearchVal" @touchstart="clear"></text>
       <view class="action" v-if="isFocus">
         <button class="btn cu-btn bg-yp-orange shadow-blur radius" @touchstart="search">搜索</button>
       </view>
@@ -47,7 +48,10 @@ export default {
     confirm() {
       this.search();
     },
-    clear() {
+    clear(e) {
+      const curTargetId = e.currentTarget && e.currentTarget.id;
+      const targetId = e.target && e.target.id;
+      console.log(curTargetId, targetId);
       this.SearchVal = '';
     },
     search() {
