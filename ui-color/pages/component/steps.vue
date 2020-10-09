@@ -9,9 +9,16 @@
 				<button class="cu-btn bg-green shadow" @tap="BasicsSteps">下一步</button>
 			</view>
 		</view>
+    
+    
 		<view class="bg-white padding">
 			<view class="cu-steps">
-				<view class="cu-item" :class="index>basics?'':'text-red'" v-for="(item,index) in basicsList" :key="index">
+				<view
+          class="cu-item"
+          :class="index>basics?'':'text-red'"
+          v-for="(item,index) in basicsList"
+          :key="index"
+         >
 					<text :class="'cuIcon-' + item.cuIcon"></text> {{item.name}}
 				</view>
 			</view>

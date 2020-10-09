@@ -1,31 +1,56 @@
 <template>
   <view>
-    <button class="cu-btn bg-cyan" @click="showModal">show</button>
-    <BottomModal
-      ref="bottomModal"
-      title="测试标题"
-    >
-      <view class="wrap">
-        <view class="content"></view>
-      </view>
-    </BottomModal>
+    <view class="bg-white padding-tb">
+    	<view class="cu-steps">
+    		<view
+          class="cu-item"
+          :class="index>basics?'':'text-yp-orange'"
+          v-for="(item, index) in basicsList"
+          :key="index"
+         >
+          <view class="wrap">
+            <StepIcon :state="test(index)"/>
+          </view>
+          <view class="desc">
+            {{item.name}}
+          </view>
+    		</view>
+    	</view>
+    </view>
+    
+    <button class="cu-btn bg-brown" @click="BasicsSteps">test</button>
   </view>
 </template>
 
 <script>
-import BottomModal from './BottomModal.vue';
+import StepIcon from './StepIcon.vue';
 
 export default {
-  components: { BottomModal },
+  components: { StepIcon },
   data() {
     return {
-      
+      basics: 0,
+      basicsList: [
+        {
+          name: '选择设备'
+        }, {
+          name: '选择仓库'
+        }, {
+          name: '审核数量'
+        }, {
+          name: '确认收货'
+        },
+      ],
     };
   },
   methods: {
-    showModal() {
-      const bottomModal = this.$refs && this.$refs.bottomModal;
-      bottomModal.showModal();
+    test(idx) {
+      if (idx > this.basics) return "not-yet";
+      if (idx < this.basics) return "done";
+      if (idx === this.basics) return 'here';
+    },
+    BasicsSteps() {
+    	this.basics= this.basics == this.basicsList.length - 1 ? 0 : this.basics + 1				
     },
   },
 }
@@ -33,11 +58,12 @@ export default {
 
 <style lang="scss" scoped>
 .wrap {
-  height: 700upx;
-  background-color: #8799A3;
-  .content {
-    height: 900upx;
-    background-color: rgba($color: #333, $alpha: .2);
-  }
+  display: flex;
+  justify-content: center;
+  padding-top: 15upx;
+  padding-bottom: 8upx;
+}
+.desc {
+  font-size: 26upx;
 }
 </style>
