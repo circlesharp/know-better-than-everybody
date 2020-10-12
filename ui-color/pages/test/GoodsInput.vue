@@ -27,6 +27,8 @@
         type="number"
         class="input"
         v-model="inputNumber"
+        :class="isTakeWhole ? 'disabled' : ''"
+        :disabled="isTakeWhole"
         @blur="onBlur"
         @change="onChange"
         @focus="onFocus"
@@ -64,15 +66,33 @@ export default {
       type: Number,
       required: true,
     },
+    // 是否整件取
+    isTakeWhole: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
       input: 0,
       inputPackges: 0,
       inputNumber: 0,
+      copedInputs: [null, null],
     };
   },
   watch: {
+    isTakeWhole(bool) {
+      if (bool) {
+        this.copedInputs = [this.inputPackges, this.inputNumber];
+        if (this.inputNumber > 0) {
+          this.inputNumber = 0;
+          this.inputPackges++;
+        }
+        this.onBlur();
+      }
+      /* 取消整件取的时候的复位行为，当前不用考虑
+      else [this.inputPackges, this.inputNumber] = this.copedInputs; */
+    },
     value(n) {
       this.$nextTick(() => {
         this.changeInnerInputValue(n);
@@ -129,7 +149,7 @@ export default {
 };
 </script>
 
-<style scoped>
+<style lang="scss" scoped>
 .goodsInput,
 .goods-tips {
   display: flex;
@@ -149,5 +169,8 @@ export default {
   margin: 0 16upx;
   border: 1px solid #d9d8d9;
   color: #333;
+  &.disabled {
+    color: #DDDDDD;
+  }
 }
 </style>

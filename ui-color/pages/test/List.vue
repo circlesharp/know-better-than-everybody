@@ -31,6 +31,7 @@
           type="pickup"
           :item="goods"
           :value="goods.pickupNum"
+          :isTakeWhole="isTakeWhole"
           @updatePickup="updatePickup"
         />
       </view>
@@ -57,10 +58,14 @@ export default {
   components: { GoodsInput },
   props: {
     goods: Object,
+    isTakeWhole: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
-      
+
     };
   },
   created() {

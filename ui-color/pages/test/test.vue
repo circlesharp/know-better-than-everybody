@@ -6,19 +6,28 @@
     >
       <List
         :goods="goods"
+        :isTakeWhole="isTakeWhole"
         @deleteMyself="onDeleteMyself(idx)"
         @updatePickup="onUpdatePickup($event, idx)"
       ></List>
     </view>
     
-    <button class="cu-btn bg-pink" @click="addGoods">addGoods</button>
     <button class="cu-btn bg-brown" @click="calWholePickupNum">calWholePickupNum</button>
     <button class="cu-btn bg-green" @click="takeWhole">takeWhole</button>
+    
+    <view class="wrap-bottom-operator">
+      <BottomOperator
+        :totalNum="totalNum"
+        @selectGoods="addGoods"
+        @submit="onSubmit"
+      />
+    </view>
   </view>
 </template>
 
 <script>
 import List from './List.vue';
+import BottomOperator from './BottomOperator.vue';
 
 const testAddedGoods = {
   "BarCode": "6902538005555",
@@ -35,7 +44,7 @@ const testAddedGoods = {
 };
 
 export default {
-  components: { List },
+  components: { List, BottomOperator },
   data() {
     return {
       selectedDepot: { name: '测试仓库', value: '' }, // 传入的仓库
@@ -81,8 +90,17 @@ export default {
           "pickupNum": 44
         },
       ],
-      addedGoods: testAddedGoods,
+      isTakeWhole: false,
     };
+  },
+  computed: {
+    totalNum() {
+      let total = 0;
+      this.collapseGoods.forEach(goods => {
+        total += goods.pickupNum;
+      });
+      return total;
+    },
   },
   created() {
     // console.log(this.collapseGoods)
@@ -99,11 +117,19 @@ export default {
         targetGoods.pickupNum = val.pickupNum;
     },
     takeWhole() {
-      // 整件拿
+      this.isTakeWhole = !this.isTakeWhole;
     },
-    addGoods() {
-      // addedGoods 的值由 modal 改变
-      this.collapseGoods.push(this.addedGoods);
+    addGoods(goods) {
+      console.log(11, goods)
+      const targetBarCode = goods.BarCode;
+      let isGoodsExist = false;
+      this.collapseGoods.forEach(existedGoods => {
+        if (existedGoods.BarCode === targetBarCode) isGoodsExist = true;
+      });
+      if (!isGoodsExist) this.collapseGoods.push(goods);
+    },
+    onSubmit() {
+      //
     },
     calWholePickupNum() {
       this.collapseGoods.forEach(goods => {
@@ -117,5 +143,13 @@ export default {
 <style>
 .temple-list {
   padding: 0 24upx;
+}
+.wrap-bottom-operator {
+  margin: 0 24upx;
+  z-index: 99;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 30upx;
 }
 </style>
