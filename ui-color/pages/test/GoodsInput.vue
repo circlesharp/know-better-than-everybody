@@ -11,7 +11,7 @@
       />
     </view>
     <view class="goods-tips" v-if="type === 'pickup'">
-      提货总数（{{ input || 0 }}）= {{ item.BoxGauge }} *
+      提货总数: {{ item.BoxGauge }} x
       <input
         ref="inputPackges"
         type="number"
@@ -21,7 +21,7 @@
         @change="onChange"
         @focus="onFocus"
       />
-      件+
+      件 +
       <input
         ref="inputNumber"
         type="number"
@@ -31,11 +31,21 @@
         @change="onChange"
         @focus="onFocus"
       />个
+      = {{ input || 0 }}个
     </view>
   </view>
 </template>
 
 <script>
+/*
+::: 使用说明 :::
+
+由于多次修改等历史原因，本组件逻辑可能比较不太明晰
+
+经过修改，本组件不改变传入的对象的属性
+本组件只修改 pickupNum，也就是提货数量
+本组件触发 updatePickup，并把原对象、商品条形码、新的提货属性传出去
+*/
 export default {
   name: 'goodsInput',
   props: {
@@ -107,13 +117,10 @@ export default {
       this.inputNumber = this.input % this.item.BoxGauge;
     },
     updateInput() {
-      const value = this.input;
       const goods = this.item;
-      goods.TotalSalesCount = parseInt(value, 10) || 0;
-      this.updatePickup({
-        goods,
-        quantity: parseInt(value, 10) || 0,
-      });
+      const BarCode = goods.BarCode;
+      const pickupNum = parseInt(this.input, 10) || 0;
+      this.updatePickup({ goods, BarCode, pickupNum });
     },
     updatePickup(val) {
       this.$emit('updatePickup', val);
@@ -127,15 +134,19 @@ export default {
 .goods-tips {
   display: flex;
   align-items: center;
+  font-weight: 500;
+  font-size: 26upx;
+  line-height: 40upx;
+  color: #333;
 }
 .input {
-  width: 88rpx;
-  height: 48rpx;
-  font-size: 30rpx;
+  width: 110upx;
+  height: 60upx;
+  font-size: 28rpx;
   text-align: center;
-  padding: 0rpx 10rpx;
+  padding: 0rpx 10upx;
   border-radius: 10rpx;
-  margin: 0 20rpx;
+  margin: 0 16upx;
   border: 1px solid #d9d8d9;
   color: #333;
 }

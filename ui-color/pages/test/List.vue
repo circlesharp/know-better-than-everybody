@@ -20,7 +20,7 @@
           </view>
         </view>
         <view>
-          <button class="del-btn cu-btn line-black">
+          <button class="del-btn cu-btn line-black" @click="deleteMyself">
             删除商品
           </button>
         </view>
@@ -28,9 +28,10 @@
       
       <view class="wrap-num">
         <GoodsInput
+          type="pickup"
           :item="goods"
           :value="goods.pickupNum"
-          :type="'pickup'"
+          @updatePickup="updatePickup"
         />
       </view>
     </view>
@@ -38,6 +39,19 @@
 </template>
 
 <script>
+/*
+::: 字段说明 :::
+
+一个商品的对象里面有多个属性，其中值为数字的有5个
+
+1. TotalReplenishStock 上次补货后的总数量
+2. TotalSalesCount 上次补货后卖出去的数量
+3. AccountStock 我的个人库存
+4. BoxGauge 箱规
+5. pickupNum 提货数量
+  5.1 初始值为 TotalSalesCount - AccountStock
+  5.2 随后根据 GoodsInput 的 emit 修改
+*/
 import GoodsInput from './GoodsInput.vue';
 export default {
   components: { GoodsInput },
@@ -49,8 +63,16 @@ export default {
       
     };
   },
+  created() {
+    // console.log(this.goods)
+  },
   methods: {
-    
+    deleteMyself() {
+      this.$emit('deleteMyself')
+    },
+    updatePickup(val) {
+      this.$emit('updatePickup', val);
+    },
   },
 }
 </script>
