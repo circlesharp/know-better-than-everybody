@@ -1,120 +1,102 @@
 <template>
-  <view>
-    <view class="wrap-goods">
-      <view class="wrap-detail flex">
-        <view>
-          <image
-            class="solid"
-            :src="`${goods.ImageFixWidthUrl}?x-oss-process=image/resize,h_60`"
-            style="width: 120upx; height: 120upx; margin-right: 20upx;"
-            mode="aspectFit"
-          ></image>
+  <view class="wrap-list" @click="onClick">
+    <view class="wrap-top flex">
+      <view class="flex-sub" style="color: #999;">
+        {{ item.CreateAt | formatData }}
+      </view>
+      <view :style="{color: item.Status === 1 ? '#EF2727' : ''}">
+        {{ item.Status | pickupStatus }}
+      </view>
+    </view>
+    <view class="wrap-bottom flex">
+      <view class="flex-sub">
+        <view class="repo">
+          提货仓库：{{ item.DepotVO.Name }}
         </view>
-        <view class="flex-sub">
-          <view class="goods-name">{{ goods.Name }}</view>
-          <view class="goods-out-stock">
-            缺货
-            <view class="text-yp-red">{{ goods.TotalSalesCount }}个</view>
-            ，个人库存
-            <view style="color: #151515;">{{ goods.AccountStock }}个</view>
+        <view class="flex">
+          <view class="account">
+            申请人：{{ item.ReplenisherAccountVO.TrueName }}
+          </view>
+          <view class="num">
+            申请数量：{{ item.TotalProductQty }} 个
           </view>
         </view>
-        <view>
-          <button class="del-btn cu-btn line-black" @click="deleteMyself">
-            删除商品
-          </button>
-        </view>
       </view>
-      
-      <view class="wrap-num">
-        <GoodsInput
-          type="pickup"
-          :item="goods"
-          :value="goods.pickupNum"
-          :isTakeWhole="isTakeWhole"
-          @updatePickup="updatePickup"
-        />
+      <view class="flex flex-direction justify-center">
+        <view
+          class="right-icon iconfont icon-qianjin_xiayibu_youjiantou_xiayiye"
+        ></view>
       </view>
     </view>
   </view>
 </template>
 
+<style lang="scss" scoped>
+.wrap-list {
+  margin-bottom: 20upx;
+  padding: 0 30upx;
+  color: #333;
+  background-color: #fff;
+  border-radius: 12upx;
+}
+.wrap-top {
+  padding: 16upx 0;
+  font-size: 24upx;
+  line-height: 36upx;
+  border-bottom: 2upx solid #eee;
+}
+.wrap-bottom {
+  padding: 24upx 0 30upx 0;
+  .repo {
+    margin-bottom: 8upx;
+    font-size: 30upx;
+  }
+  .account {
+    min-width: 200upx;
+    margin-right: 20upx;
+  }
+  .num {}
+  .right-icon {
+    color: #bbb;
+    font-size: 12upx;
+  }
+}
+</style>
+
 <script>
-/*
-::: 字段说明 :::
-
-一个商品的对象里面有多个属性，其中值为数字的有5个
-
-1. TotalReplenishStock 上次补货后的总数量
-2. TotalSalesCount 上次补货后卖出去的数量
-3. AccountStock 我的个人库存
-4. BoxGauge 箱规
-5. pickupNum 提货数量
-  5.1 初始值为 TotalSalesCount - AccountStock
-  5.2 随后根据 GoodsInput 的 emit 修改
-*/
-import GoodsInput from './GoodsInput.vue';
 export default {
-  components: { GoodsInput },
-  props: {
-    goods: Object,
-    isTakeWhole: {
-      type: Boolean,
-      default: false,
-    },
+  props: { 
+    item: Object,
   },
   data() {
     return {
-
+      
     };
   },
-  created() {
-    // console.log(this.goods)
+  filters: {
+    pickupStatus(statusCode) {
+      switch (statusCode) {
+        case -1:
+          return '已拒绝';
+          break;
+        case 0:
+          return '待审核';
+          break;
+        case 1:
+          return '待提货';
+          break;
+        case 2:
+          return '已提货';
+          break;
+        default:
+          return statusCode;
+      }
+    },
   },
   methods: {
-    deleteMyself() {
-      this.$emit('deleteMyself')
-    },
-    updatePickup(val) {
-      this.$emit('updatePickup', val);
+    onClick() {
+      this.$emit('on-click', this.item);
     },
   },
 }
 </script>
-
-<style lang="scss" scoped>
-.wrap-goods {
-  margin-bottom: 20upx;
-  width: 100%;
-  background-color: #fff;
-  border-radius: 12upx;
-  .wrap-detail {
-    padding: 32upx 30upx 20upx 30upx;
-    color: #333333;
-    font-size: 28upx;
-    border-bottom: 2upx solid #eee;
-    .goods-name {
-      margin-bottom: 42upx;
-      line-height: 32upx;
-    }
-    .goods-out-stock {
-      display: flex;
-      color: #999999;
-      line-height: 40upx;
-    }
-    .del-btn {
-      border-radius: 8upx;
-      padding: 0 18upx;
-      height: 48upx;
-      font-size: 26upx;
-    }
-  }
-  .wrap-num {
-    padding: 20upx 30upx 18upx 30upx;
-  }
-}
-
-.text-yp-red {
-  color: #ef2727;
-}
-</style>
