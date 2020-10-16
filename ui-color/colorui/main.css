@@ -2681,9 +2681,12 @@ scroll-view.cu-steps .cu-item {
 	height: 0px;
 	width: calc(100% - 80upx);
 	border-bottom: 1px solid #ccc;
-	left: calc(0px - (100% - 80upx) / 2);
+	left: calc(0 - (100% - 80upx) / 2);
 	top: 40upx;
 	z-index: 0;
+  left: -50%;
+  margin-left: -15upx;
+  transform: translate3d(50%,0,0);
 }
 
 .cu-steps.steps-arrow .cu-item::before,
