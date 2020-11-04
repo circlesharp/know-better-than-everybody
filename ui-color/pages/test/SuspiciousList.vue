@@ -4,14 +4,13 @@
       <image :src="`${item.ImageFixWidthUrl}?x-oss-process=image/resize,h_60`" mode="aspectFit"></image>
     </view>
     <view class="wrap-info">
-      <view class="name">{{ item.Name }}</view>
-      <view class="desc">
-        <view>订单识别数：{{ item.QtyBefore }}</view>
-        <view>申请数{{ item.Qty }}</view>
+      <view class="wrap-name">
+        <view class="name">{{ item.Name }}</view>
+        <button class="cu-btn" @click="onDel">删除</button>
       </view>
-      <view class="operator">
+      <view class="wrap-operator">
         <view v-if="type === 0" class="flex align-center">
-          审核数：
+          数量：
           <NiceInput
             inputType="number"
             :min="0"
@@ -20,8 +19,7 @@
             @change="onInputChange"
           />
         </view>
-        <view v-else>审核数：{{ item.RealQty }}</view>
-        <view>退款金额：{{ (item.RealQty * item.Price) | currency }}</view>
+        <view>金额：{{ (item.RealQty * item.Price) | currency }}</view>
       </view>
     </view>
   </view>
@@ -45,6 +43,9 @@ export default {
     console.log(JSON.stringify(this.item, null, 2))
   },
   methods: {
+    onDel() {
+      this.$emit('delete');
+    },
     onInputChange(e) {
       this.$emit('realQtyChange', e);
     }
@@ -68,17 +69,19 @@ export default {
 }
 .wrap-info {
   flex: 1;
-  .name {
-    font-size: 26upx;
-  }
-  .desc {
+  .wrap-name {
     display: flex;
-    color: #999;
-    view + view {
-      margin-left: 24upx;
+    justify-content: space-between;
+    padding-bottom: 20upx;
+    font-size: 26upx;
+    .cu-btn {
+      padding: 0;
+      height: 36upx;
+      color: red;
+      background-color: rgba(0,0,0,0);
     }
   }
-  .operator {
+  .wrap-operator {
     display: flex;
     justify-content: space-between;
     align-items: center;

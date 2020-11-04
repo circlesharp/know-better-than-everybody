@@ -14,18 +14,34 @@
       </view>
     </Card>
     
-    <Card class="card" title="订单视频信息">
+    <Card class="card" title="订单视频信息" 
+      isExtra
+      extraText="+添加商品"
+    >
       <view class="wrap-video">
         <video class="video" v-if="!orderDetail.VIResult[0]" :src="orderDetail.VIResult[0].Url"></video>
-        <view class="text" v-else>暂无视频</view>
+        <view v-else>暂无视频</view>
       </view>
     </Card>
     
     <Card class="card" title="退款审核处理意见">
       <view class="wrap-product">
         <block v-for="(item, idx) in RefundsProducts" :key="index">
-          <List :item="item" :type="type" />
+          <List class="list" :item="item" :type="type" @realQtyChange="onRealQtyChange($event, idx)" />
         </block>
+      </view>
+    </Card>
+    
+    <Card class="card wrap-remark" title="处理意见">
+      <view v-if="type === 0">
+        <textarea
+          v-model="remarks"
+          placeholder-style="color: #d6d6d6;"
+          placeholder="请填写您的处理意见"
+        />
+      </view>
+      <view v-else>
+        {{ remarks || '未填写' }}
       </view>
     </Card>
   </view>
@@ -34,7 +50,8 @@
 <script>
 import mock from './refund_detail_mock.js';
 import Card from './Card.vue';
-import List from './RefundList.vue';
+import List from './SuspiciousList.vue';
+
 export default {
   components: { Card, List },
   data() {
@@ -42,6 +59,7 @@ export default {
       orderDetail: mock.orderDetail,
       RefundsProducts: mock.RefundsProducts,
       type: 0, // 0: 可修改 ; 1: 不可修改
+      remarks: '',
     };
   },
   created() {
@@ -65,6 +83,9 @@ export default {
   methods: {
     viewImage(img) {
       console.log(img);
+    },
+    onRealQtyChange(qty, idx) {
+      this.RefundsProducts[idx].RealQty = qty;
     }
   }
 }
@@ -102,12 +123,23 @@ export default {
     width: 100%;
     height: 360upx;
   }
-  .text {
+  .empty-text {
     text-align: center;
   }
 }
 
 .wrap-product {
-  
+  .list + .list {
+    margin-top: 50upx;
+  }
+}
+
+.wrap-remark {
+  textarea {
+    padding: 10upx;
+    width: 100%;
+    height: 200upx;
+    border: 2upx solid #EEEEEE;
+  }
 }
 </style>
