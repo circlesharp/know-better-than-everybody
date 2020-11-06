@@ -25,7 +25,7 @@
     </Card>
     
     <Card class="card" title="退款审核处理意见">
-      <view class="wrap-product">
+      <view class="wrap-produc">
         <block v-for="(item, idx) in RefundsProducts" :key="index">
           <List class="list" :item="item" :type="type" @realQtyChange="onRealQtyChange($event, idx)" />
         </block>
