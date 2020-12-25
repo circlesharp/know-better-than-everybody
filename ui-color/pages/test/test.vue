@@ -6,8 +6,6 @@
       <view class="item bg-blue">3</view>
       <view class="item bg-blue">4</view>
       <view class="item bg-blue">5</view>
-      <view class="item bg-blue">4</view>
-      <view class="item bg-blue">5</view>
     </view>
   </view>
 </template>
@@ -33,8 +31,8 @@ export default {
   display: flex;
   flex-wrap: wrap;
   .item {
+    height: 100px;
     flex: 0 0 33.33%;
-    text-align: center;
   }
 }
 </style>
